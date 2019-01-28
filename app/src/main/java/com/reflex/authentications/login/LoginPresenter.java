@@ -34,6 +34,12 @@ public class LoginPresenter implements  LoginInteractor.OnLoginDoneListener {
         loginInteractor.login(email, password, this);
     }
 
+    void validateFields(String email, String password) {
+        if (loginView != null) {
+            loginInteractor.validateFields(email, password, this);
+        }
+    }
+
     void onDestroy() {
         loginView = null;
     }

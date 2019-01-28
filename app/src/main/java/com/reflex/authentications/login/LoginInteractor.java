@@ -36,13 +36,6 @@ class LoginInteractor {
         loginDataService = retrofitInstance.create(LoginDataService.class);
     }
 
-    public Retrofit getRetrofitInstance() {
-        return retrofitInstance;
-    }
-
-    public void setRetrofitInstance(Retrofit retrofitInstance) {
-        this.retrofitInstance = retrofitInstance;
-    }
 
     /**
      *  The contract that needs to be assigned when the
@@ -59,23 +52,18 @@ class LoginInteractor {
         void onFail();
     }
 
+
+
      /**
      *  The login function which process the credentials
      **/
      void login(final String email, final String password,
                 final OnLoginDoneListener listener) {
 
-             String regex = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-             Pattern pattern = Pattern.compile(regex);
-             if (TextUtils.isEmpty(email) || !pattern.matcher(email).matches()) {
-                 listener.onInvalidEmail();
+             if (!validateFields(email, password,
+                 listener)) {
                  return;
-             }
-             if (TextUtils.isEmpty(password)) {
-                 listener.onInvalidPassword();
-                 return;
-             }
-
+              }
              JsonObject jsonObject = new JsonObject();
              jsonObject.addProperty("email",email);
              jsonObject.addProperty("password",password);
@@ -114,7 +102,21 @@ class LoginInteractor {
                      t.printStackTrace();
                  }
              });
-
-
         }
+
+
+     boolean validateFields(final String email, final String password,
+                         final OnLoginDoneListener listener) {
+         String regex = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+         Pattern pattern = Pattern.compile(regex);
+         if (TextUtils.isEmpty(email) || !pattern.matcher(email).matches()) {
+             listener.onInvalidEmail();
+             return false;
+         }
+         if (TextUtils.isEmpty(password)) {
+             listener.onInvalidPassword();
+             return false;
+         }
+         return true;
+     }
     }
