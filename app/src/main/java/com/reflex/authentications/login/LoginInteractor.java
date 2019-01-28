@@ -39,17 +39,29 @@ class LoginInteractor {
 
     /**
      *  The contract that needs to be assigned when the
-     *  login is done which are validations to the fields
+     *  login is done when handling response
      **/
     interface OnLoginDoneListener {
-
-        void onInvalidEmail();
-
-        void onInvalidPassword();
 
         void onSuccess(JSONObject jsonResult)  throws JSONException ;
 
         void onFail();
+    }
+
+    /**
+     *  The contract that needs to be assigned when the
+     *  user is typing and it will be used for validation
+     *  before the login is done
+     **/
+    interface  OnLoginFieldChangeListener {
+
+        void onValidEmail();
+
+        void onValidPassword();
+
+        void onInvalidEmail();
+
+        void onInvalidPassword();
     }
 
 
@@ -58,10 +70,10 @@ class LoginInteractor {
      *  The login function which process the credentials
      **/
      void login(final String email, final String password,
-                final OnLoginDoneListener listener) {
+                final OnLoginDoneListener listener, final OnLoginFieldChangeListener changeListener) {
 
              if (!validateFields(email, password,
-                 listener)) {
+                 changeListener)) {
                  return;
               }
              JsonObject jsonObject = new JsonObject();
@@ -106,17 +118,29 @@ class LoginInteractor {
 
 
      boolean validateFields(final String email, final String password,
-                         final OnLoginDoneListener listener) {
+                          final  OnLoginFieldChangeListener changeListener) {
+
          String regex = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
          Pattern pattern = Pattern.compile(regex);
+         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && pattern.matcher(email).matches()) {
+             changeListener.onValidEmail();
+             changeListener.onValidPassword();
+             return true;
+         }
+
          if (TextUtils.isEmpty(email) || !pattern.matcher(email).matches()) {
-             listener.onInvalidEmail();
-             return false;
+             changeListener.onInvalidEmail();
          }
+         else {
+             changeListener.onValidEmail();
+         }
+
          if (TextUtils.isEmpty(password)) {
-             listener.onInvalidPassword();
-             return false;
+             changeListener.onInvalidPassword();
          }
-         return true;
+         else {
+             changeListener.onValidPassword();
+         }
+         return false;
      }
     }

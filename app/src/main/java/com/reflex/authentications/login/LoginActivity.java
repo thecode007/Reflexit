@@ -69,7 +69,22 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                loginPresenter.validateFields();
+                loginPresenter.validateFields(textEmail.getText().toString(), textPassword.getText().toString());
+            }
+        });
+
+        textPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                loginPresenter.validateFields(textEmail.getText().toString(), textPassword.getText().toString());
             }
         });
     }
@@ -93,6 +108,16 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void hideProgress() {
         progressBarLogin.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideEmailError() {
+        labelEmail.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void hidePasswordError() {
+        labelPassword.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -145,5 +170,4 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
     }
-
 }

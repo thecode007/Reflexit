@@ -13,7 +13,7 @@ import java.util.Objects;
  * Built for handling user interactions with the LoginActivity
  * */
 
-public class LoginPresenter implements  LoginInteractor.OnLoginDoneListener {
+public class LoginPresenter implements  LoginInteractor.OnLoginDoneListener, LoginInteractor.OnLoginFieldChangeListener {
 
     private LoginView loginView;
     private LoginInteractor loginInteractor;
@@ -31,7 +31,7 @@ public class LoginPresenter implements  LoginInteractor.OnLoginDoneListener {
         if (loginView != null) {
             loginView.showProgress();
         }
-        loginInteractor.login(email, password, this);
+        loginInteractor.login(email, password, this, this);
     }
 
     void validateFields(String email, String password) {
@@ -62,7 +62,22 @@ public class LoginPresenter implements  LoginInteractor.OnLoginDoneListener {
     }
 
     @Override
+    public void onValidEmail() {
+        if (loginView != null) {
+            loginView.hideEmailError();
+        }
+    }
+
+    @Override
+    public void onValidPassword() {
+        if (loginView != null) {
+            loginView.hidePasswordError();
+        }
+    }
+
+    @Override
     public void onSuccess(JSONObject jsonResult) throws JSONException {
+
         if (loginView != null || jsonResult != null) {
             Objects.requireNonNull(loginView).setSharedPreference("user_config",jsonResult.toString());
             loginView.setSharedPreference("api_token",jsonResult.getJSONObject("data").getString("api_token"));
