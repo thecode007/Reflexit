@@ -11,11 +11,19 @@ public interface LoginView {
 
     void hideProgress();
 
-    void setUsernameError();
+    void setEmailError();
 
     void setPasswordError();
 
+    void setFormError();
+
+    boolean isLoggedIn();
+
+    void setSharedPreference(String key, String jsonString);
+
     void navigateToHome();
+
+    void navigateToRegistration();
 
 
 }

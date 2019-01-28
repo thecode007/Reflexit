@@ -2,4 +2,10 @@
     <string name="app_name">reflexit</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+    <string name="label_email">Invalid Email Format</string>
+    <string name="label_password">This field is required</string>
+    <string name="label_form">Wrong UserName or Password</string>
+    <string name="label_login_form">Wrong email or password</string>
+    <string name="btn_login_text">login</string>
+    <string name="btn_register_text">Register</string>
 </resources>
