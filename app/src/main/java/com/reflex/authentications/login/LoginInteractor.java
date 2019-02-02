@@ -25,13 +25,10 @@ import retrofit2.internal.EverythingIsNonNull;
 
 class LoginInteractor {
 
-    private Retrofit retrofitInstance;
     private LoginDataService loginDataService;
 
 
     LoginInteractor(Retrofit retrofitInstance) {
-
-        this.retrofitInstance = retrofitInstance;
 
         loginDataService = retrofitInstance.create(LoginDataService.class);
     }
@@ -62,6 +59,10 @@ class LoginInteractor {
         void onInvalidEmail();
 
         void onInvalidPassword();
+
+        void onLockLoginButton();
+
+        void onUnlockLoginButton();
     }
 
 
@@ -71,7 +72,7 @@ class LoginInteractor {
      **/
      void login(final String email, final String password,
                 final OnLoginDoneListener listener, final OnLoginFieldChangeListener changeListener) {
-
+             changeListener.onLockLoginButton();
              if (!validateFields(email, password,
                  changeListener)) {
                  return;
@@ -95,14 +96,17 @@ class LoginInteractor {
                              return;
                          }
                          listener.onSuccess(json);
+                         changeListener.onUnlockLoginButton();
                      } catch (IOException e) {
                          listener.onFail();
                          Log.wtf("Login Form Error", e.getMessage());
                          e.printStackTrace();
+                         changeListener.onUnlockLoginButton();
                      } catch (JSONException e) {
                          listener.onFail();
                          e.printStackTrace();
                          Log.wtf("Login Form Error", e.getMessage());
+                         changeListener.onUnlockLoginButton();
                      }
                  }
 
@@ -112,8 +116,10 @@ class LoginInteractor {
                      listener.onFail();
                      Log.wtf("Login Form Error", t.getMessage());
                      t.printStackTrace();
+                     changeListener.onUnlockLoginButton();
                  }
              });
+         changeListener.onUnlockLoginButton();
         }
 
 
@@ -125,11 +131,13 @@ class LoginInteractor {
          if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && pattern.matcher(email).matches()) {
              changeListener.onValidEmail();
              changeListener.onValidPassword();
+             changeListener.onUnlockLoginButton();
              return true;
          }
-
+         changeListener.onLockLoginButton();
          if (TextUtils.isEmpty(email) || !pattern.matcher(email).matches()) {
              changeListener.onInvalidEmail();
+
          }
          else {
              changeListener.onValidEmail();
@@ -143,4 +151,6 @@ class LoginInteractor {
          }
          return false;
      }
+
+
     }

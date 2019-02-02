@@ -1,138 +1,131 @@
 package com.reflex.authentications.registration;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.google.gson.JsonObject;
-import com.reflex.network.RetrofitSingleton;
-import com.reflex.util.Clickable;
+import com.reflex.util.ResponseCallBack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.internal.EverythingIsNonNull;
-
+/**
+ * Built for controlling UI interactions and its logic
+ * setting live observers, validating fields responses
+ * getting online data from the interactor class
+ */
 public class RegistrationPresenter {
 
+    private RegistrationViewModel viewModel;
+    private RegistrationView owner;
 
-    RegistrationPresenter(RegistrationViewModel viewModel, RegistrationActivity registrationActivity) {
+    /**
+     *  @param  viewModel  represents data hooked to the owner view
+     *  @param  owner representing the owner of the model which lifecycle depends on it
+     */
+    RegistrationPresenter(RegistrationViewModel viewModel, RegistrationView owner) {
+        this.viewModel = viewModel;
+        this.owner = owner;
+        initOwnerObservers();
+    }
+
+    /**
+     * checks for format validity to all form
+     *  @param  viewModel  the androidModel representing the data hooked to the owner view
+     */
+    private void checkFormValidity(RegistrationViewModel viewModel) {
+        // handling empty form
+        if (viewModel.isValidPassword.getValue() == null ||
+                viewModel.isValidPasswordConfirm.getValue() == null ||
+                viewModel.isValidName.getValue() == null ||
+                viewModel.isValidEmail.getValue() == null) {
+            return;
+        }
+        // composing all field flags to set form validity
+        viewModel.isValidForm.setValue(viewModel.isValidPassword.getValue() &&
+                viewModel.isValidPasswordConfirm.getValue() &&
+                viewModel.isValidName.getValue() &&
+                viewModel.isValidEmail.getValue());
+    }
+
+    /**
+     * hooking observers to the viewModel's data fields
+     */
+    private void initOwnerObservers() {
+        // regex for valid email format
         String regex = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         Pattern pattern = Pattern.compile(regex);
-        Retrofit retrofit = RetrofitSingleton.getInstance();
-        RegistrationDataService dataService = retrofit.create(RegistrationDataService.class);
 
-        viewModel.email.observe(registrationActivity, s -> {
-            if (TextUtils.isEmpty(viewModel.email.getValue())) {
+        // hooking email observer
+        viewModel.email.observe(owner, email -> {
+            // handling empty email
+            if (email == null || TextUtils.isEmpty(viewModel.email.getValue())) {
                 viewModel.emailError.setValue("This Field is required");
                 viewModel.isValidEmail.setValue(false);
                 checkFormValidity(viewModel);
                 return;
             }
 
-            if (!pattern.matcher(viewModel.email.getValue()).matches()) {
+            // handling invalid format
+            if (!pattern.matcher(email).matches()) {
                 viewModel.emailError.setValue("Invalid Email Format");
                 viewModel.isValidEmail.setValue(false);
                 checkFormValidity(viewModel);
                 return;
             }
 
-            JsonObject emailJson = new JsonObject();
-            emailJson.addProperty("email",s);
-
-            dataService.checkEmailAvailabilityRequest(emailJson)
-                    .enqueue(new Callback<ResponseBody>() {
+            // using interactor for checking
+            // the uniqueness of the email
+            RegistrationInteractor.checkEmail(email, new ResponseCallBack() {
                 @Override
-                @EverythingIsNonNull
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.body()!= null) {
-                        try {
-                            JSONObject responseJson = new JSONObject(response.body().string());
-                            String code = responseJson.getString("code");
-                            if ( code != null && code.equals("404")) {
-                                String error = responseJson.getString("error");
-                                Log.wtf("s",error);
-                                viewModel.emailError.setValue(error);
-                                viewModel.isValidEmail.setValue(false);
-                                checkFormValidity(viewModel);
-                                return;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                public void onSuccess(JSONObject data) {
                     viewModel.isValidEmail.setValue(true);
+                    checkFormValidity(viewModel);
                 }
-
                 @Override
-                @EverythingIsNonNull
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    t.printStackTrace();
+                public void onFail(String error) {
+                    viewModel.emailError.setValue(error);
+                    viewModel.isValidEmail.setValue(false);
+                    checkFormValidity(viewModel);
                 }
             });
-
-            viewModel.isValidEmail.setValue(true);
-            checkFormValidity(viewModel);
         });
 
-
-
-        viewModel.name.observe(registrationActivity, s -> {
+        // hooking name observer
+        viewModel.name.observe(owner, name -> {
+            // handling empty name
             if (TextUtils.isEmpty(viewModel.name.getValue())) {
                 viewModel.nameError.setValue("This Field is required");
                 viewModel.isValidName.setValue(false);
                 checkFormValidity(viewModel);
                 return;
             }
-            JsonObject nameJson = new JsonObject();
-            nameJson.addProperty("name", s);
-            dataService.checkNameAvailabilityRequest(nameJson).enqueue(new Callback<ResponseBody>() {
-                @Override
-                @EverythingIsNonNull
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.body()!= null) {
-                        try {
-                            JSONObject responseJson = new JSONObject(response.body().string());
-                            String code = responseJson.getString("code");
 
-                            if ( code != null && code.equals("404")) {
-                                String error = responseJson.getString("error");
-                                viewModel.nameError.setValue(error);
-                                viewModel.isValidName.setValue(false);
-                                checkFormValidity(viewModel);
-                                return;
-                            }
-                            checkFormValidity(viewModel);
-                        } catch (JSONException e) {
-                            checkFormValidity(viewModel);
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
+            // using interactor for checking
+            // the uniqueness of the name
+            RegistrationInteractor.checkName(name, new ResponseCallBack() {
                 @Override
-                @EverythingIsNonNull
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    t.printStackTrace();
+                public void onSuccess(JSONObject data) {
+                    viewModel.isValidName.setValue(true);
+                    checkFormValidity(viewModel);
+                }
+
+                @Override
+                public void onFail(String errorMessage) {
+                    viewModel.nameError.setValue(errorMessage);
+                    viewModel.isValidName.setValue(false);
+                    checkFormValidity(viewModel);
                 }
             });
-
-            viewModel.isValidName.setValue(true);
-            checkFormValidity(viewModel);
         });
 
-        viewModel.password.observe(registrationActivity, s -> {
-
+        // hooking password observer
+        viewModel.password.observe(owner, s -> {
+            // handling empty password
             if (TextUtils.isEmpty(viewModel.password.getValue())) {
                 viewModel.passwordError.setValue("This Field is required");
                 viewModel.isValidPassword.setValue(false);
@@ -140,22 +133,7 @@ public class RegistrationPresenter {
                 return;
             }
 
-            if (!TextUtils.isEmpty(viewModel.passwordConfirm.getValue()) &&
-                    !viewModel.passwordConfirm.getValue()
-                    .equals(viewModel.password.getValue())){
-
-                viewModel.passwordConfirmError.setValue("Password mismatch");
-                viewModel.isValidPasswordConfirm.setValue(false);
-                checkFormValidity(viewModel);
-                return;
-            }
-            viewModel.isValidPassword.setValue(true);
-            viewModel.isValidPasswordConfirm.setValue(true);
-            checkFormValidity(viewModel);
-        });
-
-        viewModel.passwordConfirm.observe(registrationActivity, s -> {
-
+            // handling passwordConfirm mismatch
             if (!TextUtils.isEmpty(viewModel.passwordConfirm.getValue()) &&
                     !viewModel.passwordConfirm.getValue()
                             .equals(viewModel.password.getValue())){
@@ -165,33 +143,59 @@ public class RegistrationPresenter {
                 checkFormValidity(viewModel);
                 return;
             }
+
+            // getting through all the above conditions
+            // indicates valid password
+            viewModel.isValidPassword.setValue(true);
+            viewModel.isValidPasswordConfirm.setValue(true);
+            checkFormValidity(viewModel);
+        });
+
+        // hooking passwordConfirm observer
+        viewModel.passwordConfirm.observe(owner, s -> {
+            // handling empty passwordConfirm and password mismatch
+            if (!TextUtils.isEmpty(viewModel.passwordConfirm.getValue()) &&
+                    !viewModel.passwordConfirm.getValue()
+                            .equals(viewModel.password.getValue())){
+
+                viewModel.passwordConfirmError.setValue("Password mismatch");
+                viewModel.isValidPasswordConfirm.setValue(false);
+                checkFormValidity(viewModel);
+                return;
+            }
+
+            // getting through all the above conditions
+            // indicates valid password match
             viewModel.isValidPassword.setValue(true);
             viewModel.isValidPasswordConfirm.setValue(true);
             checkFormValidity(viewModel);
         });
     }
 
-
-    void checkFormValidity(RegistrationViewModel viewModel) {
-
-        if (viewModel.isValidPassword.getValue() == null ||
-                viewModel.isValidPasswordConfirm.getValue() == null ||
-                viewModel.isValidName.getValue() == null ||
-                viewModel.isValidEmail.getValue() == null) {
+    /**
+     * handles the register action
+     */
+    void register() {
+        // handles invalid form
+        if (viewModel.isValidForm == null || !viewModel.isValidForm.getValue()) {
             return;
         }
+        // handles the registration request using an interactor
+        RegistrationInteractor.sendRegisterRequest(viewModel.email.getValue(),
+                viewModel.name.getValue(), viewModel.password.getValue(),
+                viewModel.passwordConfirm.getValue(), new ResponseCallBack() {
+                    @Override
+                    public void onSuccess(JSONObject data) throws JSONException {
+                        owner.saveToPrefs("user_config",data.getJSONObject("data").toString());
+                        owner.saveToPrefs("id",data.getJSONObject("data").getString("id"));
+                        owner.saveToPrefs("api_token",data.getString("api_token"));
+                        owner.navigateToHome();
+                    }
+                    @Override
+                    public void onFail(String errorMessage) {
+                        Log.wtf("Registration error",errorMessage);
+                    }
+                });
 
-        viewModel.isValidForm.setValue(viewModel.isValidPassword.getValue() &&
-                viewModel.isValidPasswordConfirm.getValue() &&
-                viewModel.isValidName.getValue() &&
-                viewModel.isValidEmail.getValue());
     }
-
-
-    public void navigateHome() {
-
-    }
-
-
-
 }

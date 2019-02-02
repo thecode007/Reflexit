@@ -8,4 +8,9 @@
     <string name="label_login_form">Wrong email or password</string>
     <string name="btn_login_text">login</string>
     <string name="btn_register_text">Register</string>
+    <string name="hint_name">username</string>
+    <string name="label_name">this field is required</string>
+    <string name="label_password_confirm">password mismatch</string>
+    <string name="btn_register">Register</string>
+    <string name="hint_password_confirm">Password confirm</string>
 </resources>

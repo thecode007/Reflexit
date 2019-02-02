@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private TextView labelLoginForm;
     private ProgressBar progressBarLogin;
     private LoginPresenter loginPresenter;
+    private Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void fetchComponents() {
         textEmail = findViewById(R.id.text_email);
         textPassword = findViewById(R.id.text_password);
-        Button btnLogin = findViewById(R.id.btn_login);
+        btnLogin = findViewById(R.id.btn_login);
         labelEmail = findViewById(R.id.label_email);
         labelPassword = findViewById(R.id.label_password);
         progressBarLogin = findViewById(R.id.progress_login);
@@ -169,5 +170,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void navigateToRegistration() {
         Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void lockLoginButton() {
+        btnLogin.setClickable(false);
+    }
+
+    @Override
+    public void unlockLoginButton() {
+        btnLogin.setClickable(true);
     }
 }

@@ -1,8 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".authentications.registration.RegistrationActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</android.support.constraint.ConstraintLayout>
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.reflex.R"/>
+        <import type="android.databinding.adapters.Converters"/>
+        <import type="com.reflex.authentications.registration.RegistrationPresenter"/>
+        <variable
+            name="viewmodel"
+            type="com.reflex.authentications.registration.RegistrationViewModel"
+            />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".authentications.registration.RegistrationActivity">
+
+        <EditText
+            android:id="@+id/text_email"
+            android:text="@={viewmodel.email}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:hint="@string/hint_email"
+            android:importantForAutofill="no"
+            tools:targetApi="o" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={viewmodel.emailError}"
+            android:visibility="@{safeUnbox(viewmodel.isValidEmail) ? View.INVISIBLE:View.VISIBLE}"
+            android:textColor="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_name"
+            android:text="@={viewmodel.name}"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            tools:targetApi="o" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:visibility="@{safeUnbox(viewmodel.isValidName) ? View.INVISIBLE:View.VISIBLE}"
+            android:text="@{viewmodel.nameError}"/>
+
+
+        <EditText
+            android:id="@+id/text_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword"
+            android:text="@={viewmodel.password}"
+            android:importantForAutofill="no"
+            tools:targetApi="o" />
+
+        <TextView
+            android:id="@+id/label_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.passwordError}"
+            android:visibility="@{safeUnbox(viewmodel.isValidPassword) ? View.INVISIBLE:View.VISIBLE}"
+            android:textColor="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/text_password_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_password_confirm"
+            android:inputType="textPassword"
+            android:text="@={viewmodel.passwordConfirm}"
+            android:importantForAutofill="no"
+            tools:targetApi="o" />
+
+        <TextView
+            android:id="@+id/label_password_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{safeUnbox(viewmodel.isValidPasswordConfirm) ? View.INVISIBLE:View.VISIBLE}"
+            android:text="@{viewmodel.passwordConfirmError}"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="@{safeUnbox(viewmodel.isValidForm)}"
+            android:text="@string/btn_register"
+            />
+
+        <ProgressBar
+            android:id="@+id/progress_register"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{safeUnbox(viewmodel.isLoading) ? View.VISIBLE:View.INVISIBLE}"
+            />
+
+    </LinearLayout>
+</layout>

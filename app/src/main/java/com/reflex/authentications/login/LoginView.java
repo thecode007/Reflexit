@@ -29,5 +29,8 @@ public interface LoginView {
 
     void navigateToRegistration();
 
+    void lockLoginButton();
+
+    void unlockLoginButton();
 
 }

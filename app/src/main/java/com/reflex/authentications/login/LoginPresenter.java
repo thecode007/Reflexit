@@ -2,11 +2,8 @@ package com.reflex.authentications.login;
 
 
 import android.util.Log;
-
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Objects;
 
 /**
@@ -50,6 +47,7 @@ public class LoginPresenter implements  LoginInteractor.OnLoginDoneListener, Log
         if (loginView != null) {
             loginView.setEmailError();
             loginView.hideProgress();
+            loginView.lockLoginButton();
         }
     }
 
@@ -58,7 +56,18 @@ public class LoginPresenter implements  LoginInteractor.OnLoginDoneListener, Log
         if (loginView != null) {
             loginView.setPasswordError();
             loginView.hideProgress();
+            loginView.lockLoginButton();
         }
+    }
+
+    @Override
+    public void onLockLoginButton() {
+        loginView.lockLoginButton();
+    }
+
+    @Override
+    public void onUnlockLoginButton() {
+        loginView.unlockLoginButton();
     }
 
     @Override
@@ -81,6 +90,7 @@ public class LoginPresenter implements  LoginInteractor.OnLoginDoneListener, Log
         if (loginView != null || jsonResult != null) {
             Objects.requireNonNull(loginView).setSharedPreference("user_config",jsonResult.toString());
             loginView.setSharedPreference("api_token",jsonResult.getJSONObject("data").getString("api_token"));
+            loginView.setSharedPreference("id",jsonResult.getJSONObject("data").getString("id"));
             Log.i("Success",jsonResult.getJSONObject("data").getString("api_token"));
             loginView.hideProgress();
             loginView.navigateToHome();
