@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private TextView labelLoginForm;
     private ProgressBar progressBarLogin;
     private LoginPresenter loginPresenter;
-    private Button btnLogin;
+    private TextView btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     //================================================================================
     // Built for wrapping all standard pointing to design components
     //================================================================================
-    public void fetchComponents() {
+    private void fetchComponents() {
         textEmail = findViewById(R.id.text_email);
         textPassword = findViewById(R.id.text_password);
         btnLogin = findViewById(R.id.btn_login);
@@ -53,7 +53,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         labelPassword = findViewById(R.id.label_password);
         progressBarLogin = findViewById(R.id.progress_login);
         labelLoginForm = findViewById(R.id.label_login_form);
-        Button btnRegister = findViewById(R.id.btn_register);
+        TextView btnRegister = findViewById(R.id.btn_register);
+
 
         loginPresenter = new LoginPresenter(this,new LoginInteractor(RetrofitSingleton.getInstance()));
         btnLogin.setOnClickListener(view -> loginPresenter.validateCredentials(textEmail.getText().toString(),textPassword.getText().toString()));

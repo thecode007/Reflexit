@@ -3,7 +3,7 @@ package com.reflex.authentications.registration;
 import android.util.Log;
 import com.google.gson.JsonObject;
 import com.reflex.network.RetrofitSingleton;
-import com.reflex.util.ResponseCallBack;
+import com.reflex.network.ResponseCallBack;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;

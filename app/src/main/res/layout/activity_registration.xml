@@ -12,41 +12,109 @@
             type="com.reflex.authentications.registration.RegistrationViewModel"
             />
     </data>
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".authentications.registration.RegistrationActivity">
+        tools:context=".authentications.registration.RegistrationActivity"
+        android:background="@color/colorPrimaryDark"
+        android:padding="50dp"
+        >
+        <LinearLayout
+            android:id="@+id/form_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            >
 
-        <EditText
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="3dp"
+                android:background="@color/colorAccent"
+                android:layout_gravity="center"
+                android:contentDescription="@string/todo" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@string/reflex"
+                android:letterSpacing="0.1"
+                android:textSize="20sp"
+                android:textColor="#ffff"
+                android:layout_marginStart="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@string/it"
+                android:letterSpacing="0.1"
+                android:textSize="15sp"
+                android:textColor="#ffff"
+                />
+        </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/sign_up"
+                android:letterSpacing="0.1"
+                android:textSize="47sp"
+                android:textStyle="bold"
+                android:textColor="#ffff"
+                android:layout_marginTop="15dp"/>
+
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="6dp"
+                android:background="#fff"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="30dp"
+                android:contentDescription="@string/todo" />
+
+            <EditText
             android:id="@+id/text_email"
             android:text="@={viewmodel.email}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             android:hint="@string/hint_email"
             android:importantForAutofill="no"
+            android:layout_marginTop="50dp"
             tools:targetApi="o" />
 
-        <TextView
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@={viewmodel.emailError}"
             android:visibility="@{safeUnbox(viewmodel.isValidEmail) ? View.INVISIBLE:View.VISIBLE}"
             android:textColor="@color/colorAccent" />
 
-        <EditText
+            <EditText
             android:id="@+id/text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_name"
             android:text="@={viewmodel.name}"
             android:inputType="text"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             android:importantForAutofill="no"
             tools:targetApi="o" />
 
-        <TextView
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
@@ -54,17 +122,20 @@
             android:text="@{viewmodel.nameError}"/>
 
 
-        <EditText
+            <EditText
             android:id="@+id/text_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_password"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             android:inputType="textPassword"
             android:text="@={viewmodel.password}"
             android:importantForAutofill="no"
             tools:targetApi="o" />
 
-        <TextView
+            <TextView
             android:id="@+id/label_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,17 +143,20 @@
             android:visibility="@{safeUnbox(viewmodel.isValidPassword) ? View.INVISIBLE:View.VISIBLE}"
             android:textColor="@color/colorAccent" />
 
-        <EditText
+            <EditText
             android:id="@+id/text_password_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_password_confirm"
             android:inputType="textPassword"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             android:text="@={viewmodel.passwordConfirm}"
             android:importantForAutofill="no"
             tools:targetApi="o" />
 
-        <TextView
+            <TextView
             android:id="@+id/label_password_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,21 +164,25 @@
             android:text="@{viewmodel.passwordConfirmError}"
             android:textColor="@color/colorAccent" />
 
-        <Button
+            <TextView
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="@{safeUnbox(viewmodel.isValidForm)}"
-            android:text="@string/btn_register"
+            android:text="@string/btn_register_text"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="sans-serif-light"
+            android:textSize="14sp"
             />
-
-        <ProgressBar
-            android:id="@+id/progress_register"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{safeUnbox(viewmodel.isLoading) ? View.VISIBLE:View.INVISIBLE}"
-            />
-
     </LinearLayout>
+        <ProgressBar
+        android:id="@+id/progress_register"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="@{safeUnbox(viewmodel.isLoading) ? View.VISIBLE:View.INVISIBLE}"
+        />
+    </RelativeLayout>
+
 </layout>

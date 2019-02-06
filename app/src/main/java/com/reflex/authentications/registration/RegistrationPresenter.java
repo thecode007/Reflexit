@@ -1,16 +1,13 @@
 package com.reflex.authentications.registration;
 
-import android.arch.lifecycle.LifecycleOwner;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.reflex.util.ResponseCallBack;
+import com.reflex.network.ResponseCallBack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
@@ -177,7 +174,7 @@ public class RegistrationPresenter {
      */
     void register() {
         // handles invalid form
-        if (viewModel.isValidForm == null || !viewModel.isValidForm.getValue()) {
+        if ((viewModel.isValidForm == null) || !viewModel.isValidForm.getValue()) {
             return;
         }
         // handles the registration request using an interactor
