@@ -148,11 +148,7 @@
                 android:textColor="@color/colorWhite"
                 android:fontFamily="sans-serif-light"
                 android:textSize="14sp"/>
-
-
-
         </LinearLayout>
-
 
         <TextView
             android:id="@+id/label_login_form"

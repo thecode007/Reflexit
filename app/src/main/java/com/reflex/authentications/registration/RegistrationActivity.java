@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+
 import com.reflex.HomeActivity;
 import com.reflex.R;
 import com.reflex.databinding.ActivityRegistrationBinding;
