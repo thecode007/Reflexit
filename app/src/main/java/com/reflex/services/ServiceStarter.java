@@ -15,10 +15,7 @@ public class ServiceStarter extends BroadcastReceiver {
 
         Toast.makeText(context,"Service Starter booted", Toast.LENGTH_LONG).show();
 
-
-
         if( Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())){
-
             context.startService(new Intent(context, MasterService.class));
         }
 

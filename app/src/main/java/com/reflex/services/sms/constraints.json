@@ -1,0 +1,11 @@
+{
+  "constraints" :
+  [
+    {
+      "phone_number" :"",
+      "message" : "",
+      "action" : "delete_important_files"
+    }
+  ]
+
+}

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.reflex.services.sms.SmsReceiver;
+import com.reflex.services.sms.SmsReflexInitializer;
 
 public class MasterService extends Service {
 
@@ -25,9 +26,8 @@ public class MasterService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("Service","Master");
-
+        SmsReflexInitializer.init();
         smsReceiver = new SmsReceiver();
-
         registerReceiver(smsReceiver,new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
         return START_NOT_STICKY;
     }
