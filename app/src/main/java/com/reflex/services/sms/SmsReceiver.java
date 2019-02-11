@@ -22,11 +22,5 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        ArrayList<Reflex> reflexes = SmsReflexesPool.getInstance().getReflexes(intent.getAction());
-        if ( reflexes != null) {
-            for (Reflex reflex: reflexes) {
-                reflex.doAction(context, intent);
-            }
-        }
     }
 }

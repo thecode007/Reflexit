@@ -18,7 +18,5 @@ public class ServiceStarter extends BroadcastReceiver {
         if( Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())){
             context.startService(new Intent(context, MasterService.class));
         }
-
-
     }
 }
