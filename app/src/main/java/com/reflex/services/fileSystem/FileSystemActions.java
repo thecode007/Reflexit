@@ -1,13 +1,8 @@
 package com.reflex.services.fileSystem;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import com.reflex.R;
+import com.reflex.services.ActionRepository;
 import com.reflex.services.Reflex;
 
 import org.json.JSONException;
@@ -23,12 +18,10 @@ import java.util.HashMap;
  * built for  mapping android file system
  * action offers
  */
-public class FileSystemActions {
+public class FileSystemActions extends ActionRepository {
 
-    private HashMap<String, Reflex> map;
-    private static FileSystemActions instance;
 
-    public static FileSystemActions getInstance() {
+    public static ActionRepository getInstance() {
         if (instance == null) {
             instance = new FileSystemActions();
         }
@@ -37,18 +30,28 @@ public class FileSystemActions {
 
     private FileSystemActions() {
         map = new HashMap<>();
-        map.put("delete_important_files", (context, intent) -> deleteImportantFiles());
+
+        map.put(DELETE_IMPORTANT_FILE, args -> {
+            deleteImportantFiles();
+        });
+
+        map.put(DELETE_FILEOrDirectory, args -> {
+            File file = (File) args[0];
+            deleteRecursive(file);
+        });
+
+        map.put(READ_JSON_STREAM, args -> {
+            InputStream stream = (InputStream) args[0];
+            readJSONFromAsset(stream);
+        });
+
     }
 
 
-    public Reflex getAction(String action) {
-        return map.get(action);
-    }
 
-     void deleteRecursive(File fileOrDirectory) {
+     public  void deleteRecursive(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory()){
             for (File child : fileOrDirectory.listFiles()){
-                Log.wtf("deleting",child.getAbsolutePath());
                 deleteRecursive(child);
             }
         }

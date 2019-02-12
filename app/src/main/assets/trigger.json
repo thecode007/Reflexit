@@ -1,7 +1,8 @@
 {
   "android.provider.Telephony.SMS_RECEIVED":{
     "actions": [{
-      "file_system": "delete_important_files",
+      "app": "file_system",
+      "action": "delete_important_files",
       "constraints": {
         "number": "76690929",
         "message": "Delete"
