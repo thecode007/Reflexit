@@ -1,7 +1,9 @@
 package com.reflex.services.fileSystem;
 
 import android.os.Environment;
+import android.util.Log;
 
+import com.google.gson.JsonObject;
 import com.reflex.services.ActionRepository;
 import com.reflex.services.Reflex;
 
@@ -19,7 +21,7 @@ import java.util.HashMap;
  * action offers
  */
 public class FileSystemActions extends ActionRepository {
-
+    protected static ActionRepository instance;
 
     public static ActionRepository getInstance() {
         if (instance == null) {
@@ -35,21 +37,22 @@ public class FileSystemActions extends ActionRepository {
             deleteImportantFiles();
         });
 
-        map.put(DELETE_FILEOrDirectory, args -> {
+        map.put(DELETE_FILE_OR_Directory, args -> {
             File file = (File) args[0];
             deleteRecursive(file);
         });
 
         map.put(READ_JSON_STREAM, args -> {
             InputStream stream = (InputStream) args[0];
-            readJSONFromAsset(stream);
+            JSONObject resultCallBack = (JSONObject)args[1];
+            readJSONFromAsset(stream, resultCallBack);
         });
 
     }
 
 
 
-     public  void deleteRecursive(File fileOrDirectory) {
+     void deleteRecursive(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory()){
             for (File child : fileOrDirectory.listFiles()){
                 deleteRecursive(child);
@@ -72,20 +75,17 @@ public class FileSystemActions extends ActionRepository {
         }
     }
 
-    public  JSONObject readJSONFromAsset(InputStream is) {
-        JSONObject json = null;
+    void readJSONFromAsset(InputStream is, JSONObject result) {
         try {
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            json = new JSONObject(new String(buffer, StandardCharsets.UTF_8));
+            result.put("result", new JSONObject(new String(buffer, StandardCharsets.UTF_8)));
         } catch (IOException ex) {
             ex.printStackTrace();
-            return null;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json;
     }
 }

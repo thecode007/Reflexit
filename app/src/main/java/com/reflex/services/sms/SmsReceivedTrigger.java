@@ -4,38 +4,62 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.widget.Toast;
 
 import com.reflex.services.ActionProvider;
 import com.reflex.services.ActionRepository;
 import com.reflex.services.Trigger;
-import com.reflex.services.fileSystem.FileSystemActions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class SmsReceivedTrigger extends Trigger {
 
-    private InputStream jsonStream;
     private BroadcastReceiver receiver;
+    private Context context;
 
     public SmsReceivedTrigger(Context context) {
         super(context,"android.provider.Telephony.SMS_RECEIVED");
+        this.context = context;
+        bindReflex(ActionProvider.FILE_SYSTEM, ActionRepository.DELETE_IMPORTANT_FILE);
+        initReceiver();
         try {
-            jsonStream = context.getAssets().open("trigger.json");
-        } catch (IOException e) {
+            filterFields.put("number","");
+            filterFields.put("message","");
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        bindReflex(ActionProvider.FILE_SYSTEM, ActionRepository.DELETE_IMPORTANT_FILE);
+    }
+
+
+    private void initReceiver() {
 
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                try {
+                    JSONObject resultCallBack = new JSONObject();
+                    InputStream i = context.getAssets().open("bootstrap-trigger.json");
 
+                    SmsActions.getInstance()
+                            .execute(ActionRepository.READ_SMS_FROM_PROVIDER,
+                                    intent, resultCallBack);
+                    Toast.makeText(context, resultCallBack.toString(), Toast.LENGTH_LONG).show();
+
+                } catch (NullPointerException | IOException e) {
+                    e.printStackTrace();
+                }
+//                catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
             }
         };
     }
 
-    public void registerInSystem () {
+    public void register () {
         context.registerReceiver(receiver,new IntentFilter(triggerString));
     }
 

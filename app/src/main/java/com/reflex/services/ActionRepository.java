@@ -1,14 +1,16 @@
 package com.reflex.services;
 
+import android.util.Log;
 import java.util.HashMap;
 
-public class ActionRepository {
+public abstract class ActionRepository {
 
     protected HashMap<String, Reflex> map;
-    protected static ActionRepository instance;
+    private static String TAG = ActionRepository.class.getName();
 
     public static final String DELETE_IMPORTANT_FILE = "delete_important_files";
-    public static final String DELETE_FILEOrDirectory = "delete_file";
+    public static final String DELETE_FILE_OR_Directory = "delete_file";
+    public static final String READ_SMS_FROM_PROVIDER = "read_sms_from_intent";
     public static final String READ_JSON_STREAM = "read_json_asset";
 
     public Reflex getAction(String action) {
@@ -17,10 +19,9 @@ public class ActionRepository {
 
     public void execute(String action,Object ...objects) {
         try {
-            if (map.get(action) !=null ) {
+            if (map.get(action) != null ) {
                 getAction(action).doAction(objects);
             }
-
         }
         catch (ClassCastException | NullPointerException ex){
             ex.printStackTrace();
@@ -30,7 +31,7 @@ public class ActionRepository {
 
     public void execute(String action) {
         try {
-            if (map.get(action) !=null ) {
+            if (map.get(action) != null ) {
                 getAction(action).doAction();
             }
         }

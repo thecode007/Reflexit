@@ -2,8 +2,7 @@
     "sms": {
       "triggers":[
         "android.provider.Telephony.SMS_RECEIVED"
-      ],
-      "reflexes":["send_message","get_message"]
+      ]
     },
 
     "whatsapp": {
@@ -13,13 +12,7 @@
     "emotion": {
       "triggers":[]
     },
-
-    "file_system": {
-      "reflexes":["delete_important_files"]
-    },
-
     "phone": {
-      "reflexes":["call"],
       "triggers":[]
     }
 

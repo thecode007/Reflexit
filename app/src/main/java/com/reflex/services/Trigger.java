@@ -1,21 +1,22 @@
 package com.reflex.services;
 
 import android.content.Context;
+import org.json.JSONObject;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+
 
 public abstract class Trigger {
 
     protected String triggerString;
     protected HashMap<String,Reflex> reflexHashMap;
+    protected JSONObject filterFields;
     protected Context context;
-
 
     public Trigger(Context context, String triggerString) {
         this.triggerString = triggerString;
         this.context = context;
         reflexHashMap = new HashMap<>();
+        filterFields = new JSONObject();
     }
 
 
@@ -33,6 +34,11 @@ public abstract class Trigger {
             reflexHashMap.remove(reflex);
         }
     }
+
+    private void unBindAll() {
+        reflexHashMap.clear();
+    }
+
 
     @Override
     public boolean equals(Object obj) {
