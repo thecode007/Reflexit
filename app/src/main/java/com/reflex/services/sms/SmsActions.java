@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import com.reflex.services.ActionRepository;
+import com.reflex.services.providers.ActionRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

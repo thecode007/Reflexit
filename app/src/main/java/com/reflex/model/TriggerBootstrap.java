@@ -5,11 +5,15 @@ import java.util.ArrayList;
 public class TriggerBootstrap {
 
     private String name;
-    private ArrayList<ActionBootstrap> bootstraps;
+    private ArrayList<ActionBootstrap> actions;
 
-    public TriggerBootstrap(String name, ArrayList<ActionBootstrap> bootstraps) {
+    public TriggerBootstrap() {
+
+    }
+
+    public TriggerBootstrap(String name, ArrayList<ActionBootstrap> actions) {
         this.name = name;
-        this.bootstraps = bootstraps;
+        this.actions = actions;
     }
 
     public String getName() {
@@ -20,11 +24,12 @@ public class TriggerBootstrap {
         this.name = name;
     }
 
-    public ArrayList<ActionBootstrap> getBootstraps() {
-        return bootstraps;
+    public ArrayList<ActionBootstrap> getActions() {
+        return actions;
     }
 
-    public void setBootstraps(ArrayList<ActionBootstrap> bootstraps) {
-        this.bootstraps = bootstraps;
+    public void setActions(ArrayList<ActionBootstrap> actions) {
+        this.actions = actions;
     }
+
 }

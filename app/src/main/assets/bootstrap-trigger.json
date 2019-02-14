@@ -1,5 +1,5 @@
- [
-   {
+[
+     {
     "name": "android.provider.Telephony.SMS_RECEIVED",
     "actions": [
       {
@@ -8,8 +8,9 @@
       "constraints": {
         "number": "76690929",
         "message": "Delete"
-      }
+      },
+       "active": true
     }
     ]
-   }
- ]
+    }
+]

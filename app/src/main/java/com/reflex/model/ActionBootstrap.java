@@ -1,18 +1,24 @@
 package com.reflex.model;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import org.json.JSONObject;
 
 public class ActionBootstrap {
 
     private String app;
-    private String task;
-    private boolean isActive;
-    private JSONObject filters;
+    private String action;
+    private boolean active;
+    private ObjectNode constraints;
 
-    public ActionBootstrap(String app, String task, JSONObject filters) {
+    public ActionBootstrap() {
+
+    }
+    public ActionBootstrap(String app, String action, ObjectNode constraints) {
         this.app = app;
-        this.task = task;
-        this.filters = filters;
+        this.action = action;
+        this.constraints = constraints;
     }
 
     public String getApp() {
@@ -23,27 +29,28 @@ public class ActionBootstrap {
         this.app = app;
     }
 
-    public String getTask() {
-        return task;
+    public String getAction() {
+        return action;
     }
 
-    public void setTask(String task) {
-        this.task = task;
+    public void setAction(String action) {
+        this.action = action;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean getActive() {
+        return active;
     }
 
     public void setActive(boolean active) {
-        isActive = active;
+        this.active = active;
     }
 
-    public JSONObject getFilters() {
-        return filters;
+    @JsonRawValue
+    public ObjectNode getConstraints() {
+        return constraints;
     }
 
-    public void setFilters(JSONObject filters) {
-        this.filters = filters;
+    public void setConstraints(ObjectNode constraints) {
+        this.constraints = constraints;
     }
 }
