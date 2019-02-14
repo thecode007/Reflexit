@@ -1,5 +1,6 @@
 package com.reflex.services;
 
+import com.reflex.services.fileSystem.FileSystem;
 import com.reflex.services.fileSystem.FileSystemActions;
 import com.reflex.services.providers.ActionRepository;
 import com.reflex.services.providers.App;
@@ -26,11 +27,11 @@ public class AppRepository {
     private AppRepository() {
         repoHashMap = new HashMap<>();
         repoHashMap.put(FILE_SYSTEM, SmsApp.getInstance());
-        repoHashMap.put(SMS, FileSystemActions.getInstance());
+        repoHashMap.put(SMS, FileSystem.getInstance());
     }
 
 
-    public ActionRepository getActionProvider(String provider) {
+    public App getActionProvider(String provider) {
         return repoHashMap.get(provider);
     }
 }
