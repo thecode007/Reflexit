@@ -1,6 +1,5 @@
-[
-     {
-    "name": "android.provider.Telephony.SMS_RECEIVED",
+{
+  "android.provider.Telephony.SMS_RECEIVED":{
     "actions": [
       {
       "app": "file_system",
@@ -13,4 +12,4 @@
     }
     ]
     }
-]
+}

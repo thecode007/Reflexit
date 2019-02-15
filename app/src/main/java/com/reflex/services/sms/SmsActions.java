@@ -5,6 +5,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.reflex.services.providers.ActionRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,10 +34,18 @@ public class SmsActions extends ActionRepository {
 
     private SmsActions() {
         map = new HashMap<>();
+
         map.put(READ_SMS_FROM_PROVIDER, args -> {
             Intent intent = (Intent) args[0];
             JSONObject callback = (JSONObject) args[1];
             readSMSFromIntent(intent, callback);
+        });
+
+        map.put(FILTER_SMS_FROM_PROVIDER, args -> {
+            Intent intent = (Intent) args[0];
+            ObjectNode filters = (ObjectNode) args[1];
+            ObjectNode callback = (ObjectNode) args[2];
+            filterSMSIntent(intent, filters, callback);
         });
     }
 
@@ -84,7 +97,7 @@ public class SmsActions extends ActionRepository {
     }
 
 
-    void filterSMSIntent(Intent intent, String phoneNumber, String message,JSONObject resultCallBack) {
+    void filterSMSIntent(Intent intent, ObjectNode filterArgs, ObjectNode resultCallBack) {
         // Get the SMS message.
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs;
@@ -92,16 +105,9 @@ public class SmsActions extends ActionRepository {
         String format = bundle.getString("format");
         // Retrieve the SMS message received.
         Object[] pdus = (Object[]) bundle.get(pdu_type);
-
-        if (resultCallBack == null) {
-            resultCallBack = new JSONObject();
-        }
-
-        try {
-            JSONArray resultArray = new JSONArray();
-
+        String phoneNumber = filterArgs.get("number").asText();
+        String filterMessage = filterArgs.get("message").asText();
             if (pdus != null) {
-
                 // Fill the msgs array.
                 msgs = new SmsMessage[pdus.length];
                 for (int i = 0; i < msgs.length; i++) {
@@ -113,28 +119,22 @@ public class SmsActions extends ActionRepository {
                         // If Android version L or older:
                         msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                     }
-
-                    if ( msgs[i].getOriginatingAddress().equalsIgnoreCase(phoneNumber)) {
-                        // Build the message to show.
+                    if (phoneNumber != null && !msgs[i].getOriginatingAddress().equalsIgnoreCase(phoneNumber)) {
+                        return;
+                    }
+                    // Build the message to show.
                         strMessage += "SMS from " + msgs[i].getOriginatingAddress();
                         strMessage += " :" + msgs[i].getMessageBody() + "\n";
                         // Log and display the SMS message.
                         Log.wtf(TAG, "onReceive: " + strMessage);
-                        JSONObject messageJson = new JSONObject();
-
-                        messageJson.put("number",msgs[i].getOriginatingAddress());
-                        messageJson.put("message",msgs[i].getOriginatingAddress());
-                        resultArray.put(messageJson);
-                    }
-
                 }
-                resultCallBack.put("results",resultArray);
+
+                if (filterMessage != null && filterMessage.equals(strMessage)) {
+                    resultCallBack.put("matched",true);
+                    return;
+                }
             }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        resultCallBack.put("matched",false);
     }
 
 

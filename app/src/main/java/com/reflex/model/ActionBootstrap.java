@@ -3,7 +3,6 @@ package com.reflex.model;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import org.json.JSONObject;
 
 public class ActionBootstrap {
 

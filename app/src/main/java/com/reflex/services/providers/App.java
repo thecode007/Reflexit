@@ -4,8 +4,16 @@ import android.support.annotation.Nullable;
 import com.reflex.services.Reflex;
 import com.reflex.services.Trigger;
 
+/**
+ * Built for modeling the a trigger and
+ * reflex provider. A facade and a commander to the
+ * services
+ */
 public class App {
 
+    public static String SMS = "sms";
+    public static String FILE_SYSTEM = "file_system";
+    // repositories used by the provider
     private TriggerRepository triggerRepository;
     private ActionRepository actionRepository;
 
@@ -24,6 +32,10 @@ public class App {
 
     public ActionRepository getActionRepository() {
         return actionRepository;
+    }
+
+    public Reflex getReflex(String name) {
+        return actionRepository.getAction(name);
     }
 
     public void setActionRepository(ActionRepository actionRepository) {
@@ -57,6 +69,7 @@ public class App {
 
     public void register(Trigger trigger) {
         if (triggerRepository != null) {
+            triggerRepository.register(trigger);
         }
     }
 
@@ -67,6 +80,9 @@ public class App {
     }
 
     public void startTriggers() {
+        if (triggerRepository == null) {
+            return;
+        }
         for (Trigger trigger: triggerRepository.getAll()) {
             trigger.register();
         }

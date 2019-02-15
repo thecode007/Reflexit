@@ -13,6 +13,7 @@ public abstract class ActionRepository {
     public static final String DELETE_FILE_OR_Directory = "delete_file";
     public static final String READ_SMS_FROM_PROVIDER = "read_sms_from_intent";
     public static final String READ_JSON_STREAM = "read_json_asset";
+    public static final String FILTER_SMS_FROM_PROVIDER = "filter_sms_from_intent";
 
     public Reflex getAction(String action) {
         return map.get(action);

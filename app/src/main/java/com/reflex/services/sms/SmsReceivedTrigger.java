@@ -1,49 +1,35 @@
 package com.reflex.services.sms;
 
-import android.content.BroadcastReceiver;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.widget.Toast;
-
-import com.reflex.services.providers.ActionProvider;
-import com.reflex.services.providers.ActionRepository;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.reflex.model.ActionBootstrap;
+import com.reflex.services.AppRepository;
 import com.reflex.services.Trigger;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
+import com.reflex.services.providers.ActionRepository;
+import com.reflex.services.providers.App;
 
 public class SmsReceivedTrigger extends Trigger {
 
-
-
     public SmsReceivedTrigger(Context context) {
-        super(context,"android.provider.Telephony.SMS_RECEIVED");
-        bindReflex(ActionProvider.FILE_SYSTEM, ActionRepository.DELETE_IMPORTANT_FILE);
-        try {
-            filterFields.put("number","");
-            filterFields.put("message","");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        initReceiver();
+        super(context,"android.provider.Telephony.SMS_RECEIVED",
+                AppRepository.getInstance().
+                        getApp(App.SMS));
+
     }
-
-
 
     @Override
-    protected void initReceiver() {
-
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
+    protected void initReceiverBody(Context context, Intent intent) {
+        AppRepository appRepository = AppRepository.getInstance();
+        for (ActionBootstrap bootstrap : bootstraps) {
+            ObjectNode resultCallback = bootstrap.getConstraints();
+            app.execute(ActionRepository.FILTER_SMS_FROM_PROVIDER, intent, bootstrap.getConstraints(), resultCallback);
+            if (resultCallback.get("matched") == null || !resultCallback.get("matched").asBoolean()) {
+                continue;
             }
-        };
+            App targetApp = appRepository.getApp(bootstrap.getApp());
+            targetApp.execute(bootstrap.getAction());
+        }
     }
-
-
 }
