@@ -2,7 +2,7 @@ package com.reflex.services.fileSystem;
 
 import android.os.Environment;
 
-import com.reflex.services.providers.ActionRepository;
+import com.reflex.services.providers.ReflexProvider;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,17 +17,17 @@ import java.util.HashMap;
  * built for  mapping android file system
  * action offers
  */
-public class FileSystemActions extends ActionRepository {
-    protected static ActionRepository instance;
+public class FileSystemReflexes extends ReflexProvider {
+    protected static ReflexProvider instance;
 
-    public static ActionRepository getInstance() {
+    public static ReflexProvider getInstance() {
         if (instance == null) {
-            instance = new FileSystemActions();
+            instance = new FileSystemReflexes();
         }
         return instance;
     }
 
-    private FileSystemActions() {
+    private FileSystemReflexes() {
         map = new HashMap<>();
 
         map.put(DELETE_IMPORTANT_FILE, args -> {

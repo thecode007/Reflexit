@@ -1,6 +1,6 @@
 package com.reflex.services.sms;
 import com.reflex.services.providers.App;
-import com.reflex.services.providers.TriggerRepository;
+import com.reflex.services.providers.TriggerProvider;
 
 public class SmsApp extends App {
 
@@ -15,9 +15,9 @@ public class SmsApp extends App {
 
 
     private SmsApp() {
-        super(new TriggerRepository() {
-        }, SmsActions.getInstance());
-        triggerRepository.register(new SmsReceivedTrigger(this));
+        super(new TriggerProvider() {
+        }, SmsReflexes.getInstance());
+        triggerProvider.register(new SmsReceivedTrigger(this));
     }
 
 

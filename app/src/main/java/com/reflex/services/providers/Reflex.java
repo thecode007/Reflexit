@@ -1,4 +1,4 @@
-package com.reflex.services;
+package com.reflex.services.providers;
 
 
 public interface Reflex {

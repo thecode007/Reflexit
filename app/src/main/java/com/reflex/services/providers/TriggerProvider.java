@@ -1,15 +1,13 @@
 package com.reflex.services.providers;
 
-import com.reflex.services.Trigger;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class TriggerRepository {
+public abstract class TriggerProvider {
 
     private HashMap<String, Trigger> map;
 
-    public TriggerRepository() {
+    public TriggerProvider() {
         map = new HashMap<>();
     }
 

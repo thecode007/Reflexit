@@ -3,10 +3,11 @@ package com.reflex.services.sms;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.reflex.services.providers.ActionRepository;
+import com.reflex.services.providers.ReflexProvider;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,22 +15,22 @@ import java.util.HashMap;
 import java.util.Objects;
 
 
-public class SmsActions extends ActionRepository {
+class SmsReflexes extends ReflexProvider {
 
     private static final String TAG =
-            SmsActions.class.getSimpleName();
+            SmsReflexes.class.getSimpleName();
     private static final String pdu_type = "pdus";
 
-    private static ActionRepository instance;
+    private static ReflexProvider instance;
 
-    public static ActionRepository getInstance() {
+    public static ReflexProvider getInstance() {
         if (instance == null) {
-            instance = new SmsActions();
+            instance = new SmsReflexes();
         }
         return instance;
     }
 
-    private SmsActions() {
+    private SmsReflexes() {
         map = new HashMap<>();
 
         map.put(READ_SMS_FROM_PROVIDER, args -> {
@@ -43,6 +44,13 @@ public class SmsActions extends ActionRepository {
             ObjectNode filters = (ObjectNode) args[1];
             ObjectNode callback = (ObjectNode) args[2];
             filterSMSIntent(intent, filters, callback);
+        });
+
+        map.put(SEND_SMS_TEXT_MESSAGE, args -> {
+            String dAddress = (String) args[0];
+            String scAddress= (String) args[1];
+            String message = (String) args[2];
+            sendTextMessage(dAddress, scAddress, message);
         });
     }
 
@@ -131,5 +139,12 @@ public class SmsActions extends ActionRepository {
                     return;
                 }
             }
+    }
+
+
+    private void sendTextMessage(String destinationAddress, String scAddress, String text) {
+
+        SmsManager manager = SmsManager.getDefault();
+        manager.sendTextMessage(destinationAddress, scAddress, text, null , null);
     }
 }

@@ -1,28 +1,27 @@
-package com.reflex.services;
+package com.reflex.services.providers;
 
 import com.reflex.services.fileSystem.FileSystem;
-import com.reflex.services.providers.App;
 import com.reflex.services.sms.SmsApp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AppRepository {
+public class AppProvider {
 
     private HashMap<String, App> repoHashMap;
-    private static AppRepository actionProvider;
+    private static AppProvider actionProvider;
     public static String SMS = "sms";
     public static String FILE_SYSTEM = "file_system";
 
 
-    public static AppRepository getInstance() {
+    public static AppProvider getInstance() {
         if (actionProvider == null) {
-            actionProvider = new AppRepository();
+            actionProvider = new AppProvider();
         }
         return actionProvider;
     }
 
-    private AppRepository() {
+    private AppProvider() {
         repoHashMap = new HashMap<>();
         repoHashMap.put(SMS, SmsApp.getInstance());
         repoHashMap.put(FILE_SYSTEM, FileSystem.getInstance());

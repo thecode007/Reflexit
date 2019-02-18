@@ -1,16 +1,15 @@
-package com.reflex.services;
+package com.reflex.services.providers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reflex.model.ActionBootstrap;
 import com.reflex.model.TriggerBootstrap;
-import com.reflex.services.providers.App;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public abstract class Trigger {
 
 
     private void bindReflex(String actionProvider, String action) {
-        App provider = AppRepository.getInstance()
+        App provider = AppProvider.getInstance()
                 .getApp(actionProvider);
         Reflex reflex;
         if (provider != null &&  (reflex = provider.getReflex(action)) != null) {

@@ -1,10 +1,8 @@
 package com.reflex.services.providers;
 
-import com.reflex.services.Reflex;
-
 import java.util.HashMap;
 
-public abstract class ActionRepository {
+public abstract class ReflexProvider {
 
     protected HashMap<String, Reflex> map;
 
@@ -13,6 +11,7 @@ public abstract class ActionRepository {
     public static final String READ_SMS_FROM_PROVIDER = "read_sms_from_intent";
     public static final String READ_JSON_STREAM = "read_json_asset";
     public static final String FILTER_SMS_FROM_PROVIDER = "filter_sms_from_intent";
+    public static final String SEND_SMS_TEXT_MESSAGE = "SEND_SMS_TEXT";
 
     public Reflex getAction(String action) {
         return map.get(action);

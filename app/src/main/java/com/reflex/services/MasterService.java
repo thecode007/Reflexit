@@ -1,18 +1,17 @@
 package com.reflex.services;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.IBinder;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.reflex.services.providers.App;
-import com.reflex.services.sms.SmsReceivedTrigger;
+import com.reflex.services.providers.AppProvider;
 
 import java.util.List;
 
+/**
+ * This service is the root background service for starting
+ * app triggers
+ */
 public class MasterService extends Service {
 
     public MasterService() {
@@ -36,7 +35,7 @@ public class MasterService extends Service {
     }
 
     private void startAppsTriggers() {
-        List<App> apps = AppRepository.getInstance()
+        List<App> apps = AppProvider.getInstance()
                 .getAllApps();
         for (App app : apps) {
             app.startTriggers(getApplicationContext());
@@ -44,7 +43,7 @@ public class MasterService extends Service {
     }
 
     private void stopAppsTriggers() {
-        List<App> apps = AppRepository.getInstance()
+        List<App> apps = AppProvider.getInstance()
                 .getAllApps();
         for (App app : apps) {
             app.stopTriggers(getApplicationContext());

@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.reflex.services.AppRepository;
-import com.reflex.services.providers.App;
-import java.util.List;
+
+import com.reflex.services.providers.ReflexProvider;
+import com.reflex.services.sms.SmsApp;
 
 public class HomeFragment extends Fragment {
 
@@ -20,8 +20,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-
         return view;
     }
 
