@@ -5,16 +5,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.reflex.services.providers.ActionRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 public class SmsActions extends ActionRepository {
@@ -23,7 +20,7 @@ public class SmsActions extends ActionRepository {
             SmsActions.class.getSimpleName();
     private static final String pdu_type = "pdus";
 
-    protected static ActionRepository instance;
+    private static ActionRepository instance;
 
     public static ActionRepository getInstance() {
         if (instance == null) {
@@ -50,13 +47,14 @@ public class SmsActions extends ActionRepository {
     }
 
 
-    void readSMSFromIntent(Intent intent, JSONObject resultCallBack) {
+    private void readSMSFromIntent(Intent intent, JSONObject resultCallBack) {
 
         // Get the SMS message.
         Log.wtf("Function SMS Read","executing");
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs;
-        String strMessage = "";
+        StringBuilder strMessage = new StringBuilder();
+        assert bundle != null;
         String format = bundle.getString("format");
         Object[] pdus = (Object[]) bundle.get(pdu_type);
 
@@ -78,16 +76,16 @@ public class SmsActions extends ActionRepository {
                     }
 
                     // Build the message to show.
-                    strMessage += "SMS from " + msgs[i].getOriginatingAddress();
-                    strMessage += " :" + msgs[i].getMessageBody() + "\n";
+                    strMessage.append("SMS from ").append(msgs[i].getOriginatingAddress());
+                    strMessage.append(" :").append(msgs[i].getMessageBody()).append("\n");
                     // Log and display the SMS message.
-                    Log.wtf(TAG, "onReceive: " + strMessage);
                     JSONObject messageJson = new JSONObject();
 
                     messageJson.put("number",msgs[i].getOriginatingAddress());
                     messageJson.put("message",msgs[i].getOriginatingAddress());
                     resultArray.put(messageJson);
                 }
+                Log.wtf(TAG, "onReceive: " + strMessage);
                 resultCallBack.put("results",resultArray);
             }
 
@@ -97,11 +95,13 @@ public class SmsActions extends ActionRepository {
     }
 
 
-    void filterSMSIntent(Intent intent, ObjectNode filterArgs, ObjectNode resultCallBack) {
+    private void filterSMSIntent(Intent intent, ObjectNode filterArgs, ObjectNode resultCallBack) {
         // Get the SMS message.
+        resultCallBack.put("matched",false);
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs;
-        String strMessage = "";
+        StringBuilder strMessage = new StringBuilder();
+        assert bundle != null;
         String format = bundle.getString("format");
         // Retrieve the SMS message received.
         Object[] pdus = (Object[]) bundle.get(pdu_type);
@@ -119,23 +119,17 @@ public class SmsActions extends ActionRepository {
                         // If Android version L or older:
                         msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                     }
-                    if (phoneNumber != null && !msgs[i].getOriginatingAddress().equalsIgnoreCase(phoneNumber)) {
+                    if (phoneNumber != null && !Objects.requireNonNull(msgs[i].getOriginatingAddress()).equalsIgnoreCase(phoneNumber)) {
                         return;
                     }
                     // Build the message to show.
-                        strMessage += "SMS from " + msgs[i].getOriginatingAddress();
-                        strMessage += " :" + msgs[i].getMessageBody() + "\n";
-                        // Log and display the SMS message.
-                        Log.wtf(TAG, "onReceive: " + strMessage);
+                    strMessage.append(msgs[i].getMessageBody());
                 }
 
-                if (filterMessage != null && filterMessage.equals(strMessage)) {
+                if (filterMessage != null && filterMessage.equals(strMessage.toString())) {
                     resultCallBack.put("matched",true);
                     return;
                 }
             }
-        resultCallBack.put("matched",false);
     }
-
-
 }

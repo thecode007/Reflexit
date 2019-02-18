@@ -15,7 +15,6 @@ import java.util.List;
 
 public class MasterService extends Service {
 
-    SmsReceivedTrigger receivedTrigger;
     public MasterService() {
     }
 
@@ -26,19 +25,29 @@ public class MasterService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        List<App> apps = AppRepository.getInstance()
-                .getAllApps();
-        for (App app : apps) {
-            app.startTriggers();
-        }
+        startAppsTriggers();
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        receivedTrigger.unRegister();
-        Log.wtf("Service","Master destroyed");
-        Toast.makeText(getApplicationContext(), "destroyed",Toast.LENGTH_SHORT).show();
         super.onDestroy();
+        stopAppsTriggers();
+    }
+
+    private void startAppsTriggers() {
+        List<App> apps = AppRepository.getInstance()
+                .getAllApps();
+        for (App app : apps) {
+            app.startTriggers(getApplicationContext());
+        }
+    }
+
+    private void stopAppsTriggers() {
+        List<App> apps = AppRepository.getInstance()
+                .getAllApps();
+        for (App app : apps) {
+            app.stopTriggers(getApplicationContext());
+        }
     }
 }

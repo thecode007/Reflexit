@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.widget.Toast;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reflex.model.ActionBootstrap;
@@ -17,35 +19,31 @@ import java.util.List;
 
 public abstract class Trigger {
 
-    protected String triggerString;
+    private String triggerString;
     protected App app;
-    protected HashMap<String, Reflex> reflexHashMap;
-    protected JsonNode filterFields;
+    private HashMap<String, Reflex> reflexHashMap;
     protected List<ActionBootstrap> bootstraps;
-    protected Context context;
-    protected BroadcastReceiver receiver;
-    protected ObjectMapper mapper;
+    private BroadcastReceiver receiver;
+    private ObjectMapper mapper;
 
 
-    public Trigger(Context context, String triggerString, App app) {
+    public Trigger(String triggerString, App app) {
         this.triggerString = triggerString;
-        this.context = context;
         mapper= new ObjectMapper();
         reflexHashMap = new HashMap<>();
-        filterFields = mapper.createObjectNode();
         bootstraps = new ArrayList<>();
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                bindReflexes();
+                bindReflexes(context);
                 initReceiverBody(context, intent);
             }
         };
-        registerToApp(app);
+        this.app = app;
     }
 
 
-    public void bindReflex(String actionProvider,String action) {
+    private void bindReflex(String actionProvider, String action) {
         App provider = AppRepository.getInstance()
                 .getApp(actionProvider);
         Reflex reflex;
@@ -68,7 +66,7 @@ public abstract class Trigger {
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj instanceof Trigger
+        return obj instanceof Trigger
                 && triggerString.equals(((Trigger)obj).triggerString);
     }
 
@@ -76,36 +74,33 @@ public abstract class Trigger {
         return triggerString;
     }
 
-    public void setTriggerString(String triggerString) {
-        this.triggerString = triggerString;
-    }
 
-    public void register () {
+    public void register (Context context) {
         context.registerReceiver(receiver,new IntentFilter(triggerString));
     }
 
-    public void unRegister() {
+    public void unRegister(Context context) {
         if (receiver != null) {
             context.unregisterReceiver(receiver);
         }
     }
 
-   protected void bindReflexes() {
+   private void bindReflexes(Context context) {
        try {
            unBindAll();
            JsonNode node = mapper.readTree(context.getAssets().open("bootstrap-trigger.json"));
            JsonNode bootstrap = node.get(triggerString);
+
            if (bootstrap == null) {
                return;
            }
            TriggerBootstrap trigger = mapper.readValue(bootstrap.toString(), TriggerBootstrap.class);
-           List<ActionBootstrap> wraps = trigger.getActions();
-
+           bootstraps.addAll(trigger.getActions());
            if (bootstraps == null || bootstraps.size() == 0) {
                return;
            }
 
-           for (ActionBootstrap action : wraps) {
+           for (ActionBootstrap action : bootstraps) {
                if (!action.getActive())
                    continue;
                bindReflex(action.getApp(), action.getAction());
@@ -118,8 +113,6 @@ public abstract class Trigger {
 
 
     protected  abstract void initReceiverBody(Context context, Intent intent);
-    protected  void registerToApp(App app) {
-        app.register(this);
-    }
+
 
 }

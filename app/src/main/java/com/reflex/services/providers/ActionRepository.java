@@ -7,7 +7,6 @@ import java.util.HashMap;
 public abstract class ActionRepository {
 
     protected HashMap<String, Reflex> map;
-    private static String TAG = ActionRepository.class.getName();
 
     public static final String DELETE_IMPORTANT_FILE = "delete_important_files";
     public static final String DELETE_FILE_OR_Directory = "delete_file";

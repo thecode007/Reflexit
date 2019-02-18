@@ -14,6 +14,7 @@ public abstract class TriggerRepository {
     }
 
    public void register(Trigger trigger) {
+
         map.put(trigger.getTriggerString(), trigger);
    }
 

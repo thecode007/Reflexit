@@ -5,13 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reflex.model.TriggerBootstrap;
-
-import java.io.IOException;
-import java.io.InputStream;
+import com.reflex.services.AppRepository;
+import com.reflex.services.providers.App;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -25,16 +21,12 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        InputStream i = null;
-        try {
-            i = getContext().getAssets().open("bootstrap-trigger.json");
-            ObjectMapper objectMapper = new ObjectMapper();
-            TriggerBootstrap triggerBootstrap = objectMapper.readValue(i, TriggerBootstrap.class);
-            Toast.makeText(getContext(), triggerBootstrap.getActions().get(0).getConstraints().toString(),Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

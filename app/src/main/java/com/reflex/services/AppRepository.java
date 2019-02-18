@@ -24,8 +24,8 @@ public class AppRepository {
 
     private AppRepository() {
         repoHashMap = new HashMap<>();
-        repoHashMap.put(FILE_SYSTEM, SmsApp.getInstance());
-        repoHashMap.put(SMS, FileSystem.getInstance());
+        repoHashMap.put(SMS, SmsApp.getInstance());
+        repoHashMap.put(FILE_SYSTEM, FileSystem.getInstance());
     }
 
     public App getApp(String provider) {

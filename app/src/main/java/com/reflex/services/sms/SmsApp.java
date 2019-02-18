@@ -1,8 +1,4 @@
 package com.reflex.services.sms;
-
-import android.support.annotation.Nullable;
-
-import com.reflex.services.providers.ActionRepository;
 import com.reflex.services.providers.App;
 import com.reflex.services.providers.TriggerRepository;
 
@@ -17,7 +13,12 @@ public class SmsApp extends App {
         return instance;
     }
 
+
     private SmsApp() {
-        super(SmsTriggerRepository.getInstance(),SmsActions.getInstance());
+        super(new TriggerRepository() {
+        }, SmsActions.getInstance());
+        triggerRepository.register(new SmsReceivedTrigger(this));
     }
+
+
 }

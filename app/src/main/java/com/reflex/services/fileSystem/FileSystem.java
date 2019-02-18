@@ -1,10 +1,12 @@
 package com.reflex.services.fileSystem;
 
+import android.content.Context;
+
 import com.reflex.services.providers.App;
 
 public class FileSystem extends App {
-    public static FileSystem instance;
 
+    public static FileSystem instance;
     public static FileSystem getInstance() {
         if (instance == null) {
             instance = new FileSystem();
