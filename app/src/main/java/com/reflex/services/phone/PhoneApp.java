@@ -1,7 +1,6 @@
 package com.reflex.services.phone;
 
-import com.reflex.services.providers.App;
-import com.reflex.services.providers.TriggerProvider;
+import com.reflex.core.providers.App;
 
 public class PhoneApp extends App {
 

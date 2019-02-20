@@ -7,10 +7,10 @@ import android.widget.Toast;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.reflex.model.ActionBootstrap;
-import com.reflex.services.providers.AppProvider;
-import com.reflex.services.providers.Trigger;
-import com.reflex.services.providers.ReflexProvider;
-import com.reflex.services.providers.App;
+import com.reflex.services.AppProvider;
+import com.reflex.core.providers.Trigger;
+import com.reflex.core.providers.ReflexProvider;
+import com.reflex.core.providers.App;
 
 class SmsReceivedTrigger extends Trigger {
 

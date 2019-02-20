@@ -2,7 +2,7 @@ package com.reflex.services.fileSystem;
 
 import android.os.Environment;
 
-import com.reflex.services.providers.ReflexProvider;
+import com.reflex.core.providers.ReflexProvider;
 
 import org.json.JSONException;
 import org.json.JSONObject;

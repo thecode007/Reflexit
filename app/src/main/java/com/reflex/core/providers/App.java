@@ -1,4 +1,4 @@
-package com.reflex.services.providers;
+package com.reflex.core.providers;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

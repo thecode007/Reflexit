@@ -1,4 +1,4 @@
-package com.reflex.services.providers;
+package com.reflex.core.providers;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -3,8 +3,7 @@ package com.reflex.services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import com.reflex.services.providers.App;
-import com.reflex.services.providers.AppProvider;
+import com.reflex.core.providers.App;
 
 import java.util.List;
 

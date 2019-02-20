@@ -1,4 +1,4 @@
-package com.reflex.services.providers;
+package com.reflex.core.providers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reflex.model.ActionBootstrap;
 import com.reflex.model.TriggerBootstrap;
+import com.reflex.services.AppProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;

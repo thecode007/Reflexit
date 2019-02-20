@@ -7,7 +7,7 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.reflex.services.providers.ReflexProvider;
+import com.reflex.core.providers.ReflexProvider;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

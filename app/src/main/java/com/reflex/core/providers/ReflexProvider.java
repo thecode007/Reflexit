@@ -1,4 +1,4 @@
-package com.reflex.services.providers;
+package com.reflex.core.providers;
 
 import java.util.HashMap;
 
@@ -16,7 +16,6 @@ public abstract class ReflexProvider {
     public Reflex getAction(String action) {
         return map.get(action);
     }
-
 
 
     public void registerAction(String action,Reflex reflex) {

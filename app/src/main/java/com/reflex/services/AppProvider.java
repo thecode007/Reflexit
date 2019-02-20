@@ -1,5 +1,6 @@
-package com.reflex.services.providers;
+package com.reflex.services;
 
+import com.reflex.core.providers.App;
 import com.reflex.services.fileSystem.FileSystem;
 import com.reflex.services.sms.SmsApp;
 import java.util.ArrayList;
