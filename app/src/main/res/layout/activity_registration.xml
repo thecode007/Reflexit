@@ -91,6 +91,7 @@
             android:textColorHint="@color/colorWhite"
             android:hint="@string/hint_email"
             android:importantForAutofill="no"
+            android:backgroundTint="@color/colorUnderline"
             android:layout_marginTop="50dp"
             tools:targetApi="o" />
 
@@ -108,7 +109,8 @@
             android:hint="@string/hint_name"
             android:text="@={viewmodel.name}"
             android:inputType="text"
-            android:fontFamily="sans-serif-light"
+                android:backgroundTint="@color/colorUnderline"
+                android:fontFamily="sans-serif-light"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite"
             android:importantForAutofill="no"
@@ -131,7 +133,9 @@
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite"
             android:inputType="textPassword"
-            android:text="@={viewmodel.password}"
+                android:backgroundTint="@color/colorUnderline"
+                android:text="@={viewmodel.password}"
+
             android:importantForAutofill="no"
             tools:targetApi="o" />
 
@@ -148,6 +152,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_password_confirm"
+            android:backgroundTint="@color/colorUnderline"
             android:inputType="textPassword"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/colorWhite"
@@ -168,12 +173,12 @@
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="@{safeUnbox(viewmodel.isValidForm)}"
             android:text="@string/btn_register_text"
-                android:layout_marginTop="50dp"
             android:textStyle="bold"
             android:textColor="@color/colorWhite"
             android:fontFamily="sans-serif-light"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
             android:textSize="14sp"
             />
     </LinearLayout>

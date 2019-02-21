@@ -19,15 +19,19 @@ import java.util.List;
 
 public abstract class Trigger {
 
+    private String triggerName;
     private String triggerString;
     protected App app;
     private HashMap<String, Reflex> reflexHashMap;
     protected List<ActionBootstrap> bootstraps;
     private BroadcastReceiver receiver;
     private ObjectMapper mapper;
+    protected ArrayList<String> fields;
 
 
-    public Trigger(String triggerString, App app) {
+    public Trigger(String triggerName,String triggerString, App app) {
+        this.app = app;
+        this.triggerName = triggerName;
         this.triggerString = triggerString;
         mapper= new ObjectMapper();
         reflexHashMap = new HashMap<>();
@@ -39,7 +43,8 @@ public abstract class Trigger {
                 initReceiverBody(context, intent);
             }
         };
-        this.app = app;
+        fields = new ArrayList();
+
     }
 
 
@@ -67,7 +72,7 @@ public abstract class Trigger {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Trigger
-                && triggerString.equals(((Trigger)obj).triggerString);
+                && ( triggerString.equals(((Trigger)obj).triggerString) || triggerName.equals(((Trigger)obj).triggerName));
     }
 
     public String getTriggerString() {
@@ -111,8 +116,22 @@ public abstract class Trigger {
        }
    }
 
+    public List<ActionBootstrap> getBootstraps() {
+        return bootstraps;
+    }
+
+    public ArrayList<String> getFields() {
+        return fields;
+    }
+
+    public void setFields(ArrayList<String> fields) {
+        this.fields = fields;
+    }
 
     protected  abstract void initReceiverBody(Context context, Intent intent);
 
 
+    public String getTriggerName() {
+        return triggerName;
+    }
 }

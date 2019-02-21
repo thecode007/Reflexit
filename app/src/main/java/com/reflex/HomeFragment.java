@@ -9,14 +9,23 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.reflex.core.providers.App;
+import com.reflex.core.providers.Trigger;
+import com.reflex.model.ActionBootstrap;
+import com.reflex.model.Recipe;
+import com.reflex.services.AppProvider;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -24,6 +33,7 @@ public class HomeFragment extends Fragment {
 
     private PagerAdapter mPagerAdapter;
     private ViewPager mPager;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,12 +46,10 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = view.findViewById(R.id.pager_categories);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-
-        CircleIndicator indicator =  view.findViewById(R.id.indicator);
-        indicator.setViewPager(mPager);
+        recyclerView = view.findViewById(R.id.recycler_recipe);
+        // use a linear layout manager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
         return view;
     }
 
@@ -113,8 +121,37 @@ public class HomeFragment extends Fragment {
             }
             return view;
         }
+    }
 
+    public void initRecipes(RecyclerView recyclerView) {
 
+        if (recyclerView == null) {
+            return;
+        }
+
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        List<App> apps = AppProvider.getInstance().getAllApps();
+
+        for (App app : apps) {
+
+              String appName = app.getClass().getSimpleName();
+              int appImageResource = app.getIconResource();
+
+              for (Trigger trigger : app.getTriggers()) {
+                  String triggerName = trigger.getTriggerName();
+
+                  for (ActionBootstrap actionBootstrap : trigger.getBootstraps()) {
+                      App targetApp = AppProvider.getInstance().getApp(actionBootstrap.getApp());
+                      Recipe recipe = new Recipe(appName, appImageResource, triggerName,
+                              actionBootstrap.getApp(), targetApp.getIconResource(),
+                              actionBootstrap.getDescription(), actionBootstrap.isActive());
+                      recipes.add(recipe);
+                  }
+              }
+        }
+
+        RecipeAdapter adapter = new RecipeAdapter(getContext(), recipes);
+        recyclerView.setAdapter(adapter);
     }
 
 

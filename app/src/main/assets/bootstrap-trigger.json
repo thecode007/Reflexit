@@ -4,6 +4,7 @@
       {
       "app": "file_system",
       "action": "delete_important_files",
+      "description": "Delete Whatsapp and all media files when receiving a specified message from specified number",
       "constraints": {
         "number": "76690929",
         "message": "Delete"

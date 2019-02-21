@@ -17,5 +17,5 @@ public interface RegistrationView extends LifecycleOwner {
     /**
      * navigates to home view
      */
-    void navigateToHome();
+    void navigateToLogin();
 }

@@ -12,11 +12,14 @@ import com.reflex.core.providers.Trigger;
 import com.reflex.core.providers.ReflexProvider;
 import com.reflex.core.providers.App;
 
+import java.util.ArrayList;
+
 class SmsReceivedTrigger extends Trigger {
 
     SmsReceivedTrigger(App app) {
-        super("android.provider.Telephony.SMS_RECEIVED", app);
-
+        super("SMS received","android.provider.Telephony.SMS_RECEIVED", app);
+        fields.add("name");
+        fields.add("message");
     }
 
     @Override

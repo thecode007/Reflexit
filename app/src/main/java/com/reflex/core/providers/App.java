@@ -4,6 +4,11 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Built for modeling the a trigger and
  * reflex provider. A facade and a commander to the
@@ -11,16 +16,17 @@ import android.util.Log;
  */
 public class App {
     // repositories used by the provider
+    protected Context context;
     protected TriggerProvider triggerProvider;
     protected ReflexProvider reflexProvider;
-    protected Context context;
-
+    protected int iconResource;
     protected App() {
 
     }
-    public App(@Nullable TriggerProvider triggerProvider, @Nullable ReflexProvider reflexProvider) {
+    public App(int iconResource, @Nullable TriggerProvider triggerProvider, @Nullable ReflexProvider reflexProvider) {
         this.triggerProvider = triggerProvider;
         this.reflexProvider = reflexProvider;
+        this.iconResource = iconResource;
     }
 
 
@@ -91,4 +97,35 @@ public class App {
             trigger.unRegister(context);
         }
     }
+
+    public int getIconResource() {
+        return iconResource;
+    }
+
+    public Set<String> showActions() {
+        if (reflexProvider != null && reflexProvider.map != null) {
+            return reflexProvider.map.keySet();
+        }
+        return null;
+    }
+
+    public Trigger getTrigger(String name) {
+        List<Trigger> triggers = triggerProvider.getAll();
+        if (triggers == null ) {
+            return null;
+        }
+        for(Trigger trigger : triggers) {
+            if (trigger.getTriggerName().equals(name)) {
+                return trigger;
+                }
+            }
+        return null;
+    }
+
+
+    public ArrayList<Trigger> getTriggers() {
+
+        return triggerProvider.getAll();
+    }
+
 }

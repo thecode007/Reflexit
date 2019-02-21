@@ -1,4 +1,5 @@
 package com.reflex.services.sms;
+import com.reflex.R;
 import com.reflex.core.providers.App;
 import com.reflex.core.providers.TriggerProvider;
 
@@ -13,12 +14,9 @@ public class SmsApp extends App {
         return instance;
     }
 
-
     private SmsApp() {
-        super(new TriggerProvider() {
+        super(R.drawable.message_app, new TriggerProvider() {
         }, SmsReflexes.getInstance());
         triggerProvider.register(new SmsReceivedTrigger(this));
     }
-
-
 }

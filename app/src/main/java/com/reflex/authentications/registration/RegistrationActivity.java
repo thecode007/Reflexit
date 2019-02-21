@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.reflex.HomeActivity;
 import com.reflex.R;
+import com.reflex.authentications.login.LoginActivity;
 import com.reflex.databinding.ActivityRegistrationBinding;
 
 public class RegistrationActivity extends AppCompatActivity implements RegistrationView{
@@ -27,9 +28,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     }
 
     @Override
-    public void navigateToHome() {
-        startActivity(new Intent(this, HomeActivity.class));
-        getParent().finish();
+    public void navigateToLogin() {
         finish();
     }
 

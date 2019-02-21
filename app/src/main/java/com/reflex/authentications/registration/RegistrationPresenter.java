@@ -183,10 +183,7 @@ public class RegistrationPresenter {
                 viewModel.passwordConfirm.getValue(), new ResponseCallBack() {
                     @Override
                     public void onSuccess(JSONObject data) throws JSONException {
-                        owner.saveToPrefs("user_config",data.getJSONObject("data").toString());
-                        owner.saveToPrefs("id",data.getJSONObject("data").getString("id"));
-                        owner.saveToPrefs("api_token",data.getString("api_token"));
-                        owner.navigateToHome();
+                        owner.navigateToLogin();
                     }
                     @Override
                     public void onFail(String errorMessage) {

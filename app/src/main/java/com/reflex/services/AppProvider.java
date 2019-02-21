@@ -12,7 +12,7 @@ public class AppProvider {
     private HashMap<String, App> repoHashMap;
     private static AppProvider actionProvider;
     public static String SMS = "sms";
-    public static String FILE_SYSTEM = "file_system";
+    public static String FILE_SYSTEM = "file system";
 
 
     public static AppProvider getInstance() {

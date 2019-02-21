@@ -10,6 +10,7 @@ public class ActionBootstrap {
     private String action;
     private boolean active;
     private ObjectNode constraints;
+    private String description;
 
     public ActionBootstrap() {
 
@@ -26,6 +27,18 @@ public class ActionBootstrap {
 
     public void setApp(String app) {
         this.app = app;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getAction() {

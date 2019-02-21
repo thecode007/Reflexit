@@ -1,5 +1,6 @@
 package com.reflex.services.fileSystem;
 
+import com.reflex.R;
 import com.reflex.core.providers.App;
 
 public class FileSystem extends App {
@@ -13,6 +14,6 @@ public class FileSystem extends App {
     }
 
     private FileSystem() {
-        super(null, FileSystemReflexes.getInstance());
+        super(R.drawable.file_system,null, FileSystemReflexes.getInstance());
     }
 }
