@@ -11,7 +11,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +18,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.reflex.core.providers.App;
-import com.reflex.core.providers.Trigger;
-import com.reflex.core.model.ActionBootstrap;
+import com.reflex.core.model.App;
 import com.reflex.core.model.Recipe;
 import com.reflex.services.AppProvider;
-import com.reflex.services.fileSystem.FileSystemReflexes;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +30,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import static com.reflex.core.providers.ReflexProvider.READ_JSON_STREAM;
 import static com.reflex.services.AppProvider.FILE_SYSTEM;
@@ -44,7 +39,7 @@ public class HomeFragment extends Fragment {
     private PagerAdapter mPagerAdapter;
     private ViewPager mPager;
     private RecyclerView recyclerView;
-    private Button btnApps;
+    private ImageView btnApps;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +55,7 @@ public class HomeFragment extends Fragment {
         btnApps = view.findViewById(R.id.btn_activity);
 
         btnApps.setOnClickListener(view1 -> {
-            
+            startActivity(new Intent(getContext(), AppActivity.class));
         });
 
         // Instantiate a ViewPager and a PagerAdapter.

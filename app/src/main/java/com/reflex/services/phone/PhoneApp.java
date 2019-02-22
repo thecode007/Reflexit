@@ -1,6 +1,6 @@
 package com.reflex.services.phone;
 
-import com.reflex.core.providers.App;
+import com.reflex.core.model.App;
 
 public class PhoneApp extends App {
 

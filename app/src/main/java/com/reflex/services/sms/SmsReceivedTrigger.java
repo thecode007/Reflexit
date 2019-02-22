@@ -9,9 +9,9 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.reflex.core.model.ActionBootstrap;
 import com.reflex.services.AppProvider;
-import com.reflex.core.providers.Trigger;
+import com.reflex.core.model.Trigger;
 import com.reflex.core.providers.ReflexProvider;
-import com.reflex.core.providers.App;
+import com.reflex.core.model.App;
 
 class SmsReceivedTrigger extends Trigger {
 

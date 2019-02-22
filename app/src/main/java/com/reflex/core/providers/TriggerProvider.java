@@ -1,9 +1,12 @@
 package com.reflex.core.providers;
 
+import com.reflex.core.model.Trigger;
+
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 
-public abstract class TriggerProvider {
+public abstract class TriggerProvider implements Serializable {
 
     private HashMap<String, Trigger> map;
 

@@ -22,7 +22,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:label">
-        <activity android:name=".AppActivity"></activity>
+        <activity android:name=".AppConfigActivity"></activity>
+        <activity android:name=".AppActivity" />
 
         <receiver android:name=".services.ServiceStarter">
             <intent-filter>

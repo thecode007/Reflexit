@@ -1,13 +1,14 @@
-package com.reflex.core.providers;
+package com.reflex.core.model;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import java.util.ArrayList;
+import com.reflex.core.providers.ReflexProvider;
+import com.reflex.core.providers.TriggerProvider;
+
+import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Set;
  * reflex provider. A facade and a commander to the
  * services
  */
-public class App {
+public class App implements Serializable {
     // repositories used by the provider
     protected Context context;
     protected TriggerProvider triggerProvider;

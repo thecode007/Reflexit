@@ -1,10 +1,13 @@
 package com.reflex.core.providers;
 
+import com.reflex.core.model.Reflex;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
-public abstract class ReflexProvider {
+public abstract class ReflexProvider implements Serializable {
 
-    protected HashMap<String, Reflex> map;
+    public HashMap<String, Reflex> map;
 
     public static final String DELETE_IMPORTANT_FILE = "delete important files";
     public static final String DELETE_FILE_OR_Directory = "delete file";

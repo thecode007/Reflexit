@@ -1,9 +1,9 @@
 {
   "android.provider.Telephony.SMS_RECEIVED":{
-    "app" : "sms",
+    "app" : "SmsApp",
     "actions": [
       {
-      "app": "file system",
+      "app": "FileSystem",
       "action": "delete important files",
       "description": "Delete WhatsApp and all media files when receiving a specified message from Abdallah",
       "constraints": {

@@ -1,6 +1,6 @@
 package com.reflex.services.sms;
 import com.reflex.R;
-import com.reflex.core.providers.App;
+import com.reflex.core.model.App;
 import com.reflex.core.providers.TriggerProvider;
 
 public class SmsApp extends App {

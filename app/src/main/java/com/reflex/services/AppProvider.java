@@ -1,6 +1,6 @@
 package com.reflex.services;
 
-import com.reflex.core.providers.App;
+import com.reflex.core.model.App;
 import com.reflex.services.fileSystem.FileSystem;
 import com.reflex.services.sms.SmsApp;
 import java.util.ArrayList;
@@ -11,8 +11,8 @@ public class AppProvider {
 
     private HashMap<String, App> repoHashMap;
     private static AppProvider actionProvider;
-    public static String SMS = "sms";
-    public static String FILE_SYSTEM = "file system";
+    public static String SMS = SmsApp.class.getSimpleName();
+    public static String FILE_SYSTEM = FileSystem.class.getSimpleName();
 
 
     public static AppProvider getInstance() {

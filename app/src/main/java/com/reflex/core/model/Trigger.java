@@ -1,4 +1,4 @@
-package com.reflex.core.providers;
+package com.reflex.core.model;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,17 +8,16 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reflex.core.model.ActionBootstrap;
-import com.reflex.core.model.TriggerBootstrap;
 import com.reflex.services.AppProvider;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-public abstract class Trigger {
+public abstract class Trigger implements Serializable {
 
     private String triggerName;
     private String triggerString;
