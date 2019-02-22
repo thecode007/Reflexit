@@ -11,6 +11,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +20,13 @@ import android.widget.TextView;
 
 import com.reflex.core.providers.App;
 import com.reflex.core.providers.Trigger;
-import com.reflex.model.ActionBootstrap;
-import com.reflex.model.Recipe;
+import com.reflex.core.model.ActionBootstrap;
+import com.reflex.core.model.Recipe;
 import com.reflex.services.AppProvider;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import me.relex.circleindicator.CircleIndicator;
 
 public class HomeFragment extends Fragment {
 
@@ -50,6 +49,7 @@ public class HomeFragment extends Fragment {
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+        initRecipes(recyclerView);
         return view;
     }
 
@@ -134,18 +134,22 @@ public class HomeFragment extends Fragment {
 
         for (App app : apps) {
 
+              if (app.getTriggers() == null) {
+                  Log.wtf(getClass().getName(),app.getClass().getSimpleName() +" is no trigger");
+                  continue;
+              }
+            Log.wtf(getClass().getName(),app.getTriggers().size() +"");
               String appName = app.getClass().getSimpleName();
               int appImageResource = app.getIconResource();
-
               for (Trigger trigger : app.getTriggers()) {
                   String triggerName = trigger.getTriggerName();
-
                   for (ActionBootstrap actionBootstrap : trigger.getBootstraps()) {
                       App targetApp = AppProvider.getInstance().getApp(actionBootstrap.getApp());
                       Recipe recipe = new Recipe(appName, appImageResource, triggerName,
                               actionBootstrap.getApp(), targetApp.getIconResource(),
                               actionBootstrap.getDescription(), actionBootstrap.isActive());
                       recipes.add(recipe);
+                      Log.wtf(getClass().getName(),"initiating " + actionBootstrap.getApp());
                   }
               }
         }

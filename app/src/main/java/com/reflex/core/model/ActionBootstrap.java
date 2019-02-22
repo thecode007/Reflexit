@@ -1,4 +1,4 @@
-package com.reflex.model;
+package com.reflex.core.model;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.node.ObjectNode;

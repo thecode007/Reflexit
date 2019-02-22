@@ -1,4 +1,4 @@
-package com.reflex.model;
+package com.reflex.core.model;
 
 public class Recipe {
 

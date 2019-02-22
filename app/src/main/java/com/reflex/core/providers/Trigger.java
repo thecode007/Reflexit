@@ -4,11 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reflex.model.ActionBootstrap;
-import com.reflex.model.TriggerBootstrap;
+import com.reflex.core.model.ActionBootstrap;
+import com.reflex.core.model.TriggerBootstrap;
 import com.reflex.services.AppProvider;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public abstract class Trigger {
     protected List<ActionBootstrap> bootstraps;
     private BroadcastReceiver receiver;
     private ObjectMapper mapper;
-    protected ArrayList<String> fields;
+    protected ArrayList fields;
 
 
     public Trigger(String triggerName,String triggerString, App app) {
@@ -81,6 +82,7 @@ public abstract class Trigger {
 
 
     public void register (Context context) {
+        Log.wtf(triggerString, "is registered");
         context.registerReceiver(receiver,new IntentFilter(triggerString));
     }
 
@@ -120,7 +122,7 @@ public abstract class Trigger {
         return bootstraps;
     }
 
-    public ArrayList<String> getFields() {
+    public ArrayList getFields() {
         return fields;
     }
 

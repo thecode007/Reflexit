@@ -1,6 +1,6 @@
 package com.reflex.core.providers;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public abstract class TriggerProvider {
@@ -22,7 +22,7 @@ public abstract class TriggerProvider {
         }
     }
 
-    public ArrayList<Trigger> getAll() {
-        return new ArrayList<>(map.values());
+    public Collection<Trigger> getAll() {
+        return map.values();
     }
 }

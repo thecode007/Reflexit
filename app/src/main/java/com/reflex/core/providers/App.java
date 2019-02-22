@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -80,7 +81,6 @@ public class App {
     public void startTriggers(Context context) {
         Log.wtf(this.getClass().getName(), "trigger ");
         if (triggerProvider == null) {
-
             return;
         }
         for (Trigger trigger: triggerProvider.getAll()) {
@@ -110,7 +110,7 @@ public class App {
     }
 
     public Trigger getTrigger(String name) {
-        List<Trigger> triggers = triggerProvider.getAll();
+        Collection<Trigger> triggers = triggerProvider.getAll();
         if (triggers == null ) {
             return null;
         }
@@ -123,8 +123,10 @@ public class App {
     }
 
 
-    public ArrayList<Trigger> getTriggers() {
-
+    public Collection<Trigger> getTriggers() {
+        if (triggerProvider == null) {
+            return null;
+        }
         return triggerProvider.getAll();
     }
 

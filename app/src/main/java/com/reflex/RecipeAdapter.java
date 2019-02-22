@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.reflex.model.Recipe;
+import com.reflex.core.model.Recipe;
 
 import java.util.ArrayList;
 
