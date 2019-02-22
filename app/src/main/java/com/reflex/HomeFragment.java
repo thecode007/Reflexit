@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,16 +24,27 @@ import com.reflex.core.providers.Trigger;
 import com.reflex.core.model.ActionBootstrap;
 import com.reflex.core.model.Recipe;
 import com.reflex.services.AppProvider;
+import com.reflex.services.fileSystem.FileSystemReflexes;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import static com.reflex.core.providers.ReflexProvider.READ_JSON_STREAM;
+import static com.reflex.services.AppProvider.FILE_SYSTEM;
 
 public class HomeFragment extends Fragment {
 
     private PagerAdapter mPagerAdapter;
     private ViewPager mPager;
     private RecyclerView recyclerView;
+    private Button btnApps;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,10 +56,18 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
+        btnApps = view.findViewById(R.id.btn_activity);
+
+        btnApps.setOnClickListener(view1 -> {
+            
+        });
+
         // Instantiate a ViewPager and a PagerAdapter.
         recyclerView = view.findViewById(R.id.recycler_recipe);
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         initRecipes(recyclerView);
         return view;
@@ -130,33 +150,37 @@ public class HomeFragment extends Fragment {
         }
 
         ArrayList<Recipe> recipes = new ArrayList<>();
-        List<App> apps = AppProvider.getInstance().getAllApps();
 
-        for (App app : apps) {
+        App fileSystem = AppProvider.getInstance().getApp(FILE_SYSTEM);
 
-              if (app.getTriggers() == null) {
-                  Log.wtf(getClass().getName(),app.getClass().getSimpleName() +" is no trigger");
-                  continue;
-              }
-            Log.wtf(getClass().getName(),app.getTriggers().size() +"");
-              String appName = app.getClass().getSimpleName();
-              int appImageResource = app.getIconResource();
-              for (Trigger trigger : app.getTriggers()) {
-                  String triggerName = trigger.getTriggerName();
-                  for (ActionBootstrap actionBootstrap : trigger.getBootstraps()) {
-                      App targetApp = AppProvider.getInstance().getApp(actionBootstrap.getApp());
-                      Recipe recipe = new Recipe(appName, appImageResource, triggerName,
-                              actionBootstrap.getApp(), targetApp.getIconResource(),
-                              actionBootstrap.getDescription(), actionBootstrap.isActive());
-                      recipes.add(recipe);
-                      Log.wtf(getClass().getName(),"initiating " + actionBootstrap.getApp());
-                  }
-              }
+        AppProvider appProvider = AppProvider.getInstance();
+
+        try {
+            JSONObject result = new JSONObject();
+            fileSystem.execute(READ_JSON_STREAM, getContext().getAssets().open("bootstrap-trigger.json"), result);
+            result = result.getJSONObject("result");
+            Iterator<String> iterator = result.keys();
+            while (iterator.hasNext()) {
+                String triggerString = iterator.next();
+                JSONObject trigger = result.getJSONObject(triggerString);
+                String app = trigger.getString("app");
+                JSONArray actions = trigger.getJSONArray("actions");
+
+                for (int i = 0; i < actions.length(); i++) {
+                    JSONObject action = actions.getJSONObject(0);
+                    String targetApp = action.getString("app");
+                    String description = action.getString("description");
+                    Recipe recipe = new Recipe(app, appProvider.getApp(app).getIconResource(),
+                            triggerString, targetApp,appProvider.getApp(targetApp).getIconResource(), description, true);
+                    recipes.add(recipe);
+                    RecipeAdapter adapter = new RecipeAdapter(getContext(), recipes);
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-        RecipeAdapter adapter = new RecipeAdapter(getContext(), recipes);
-        recyclerView.setAdapter(adapter);
     }
-
-
 }

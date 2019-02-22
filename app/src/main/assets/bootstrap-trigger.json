@@ -1,10 +1,11 @@
 {
   "android.provider.Telephony.SMS_RECEIVED":{
+    "app" : "sms",
     "actions": [
       {
       "app": "file system",
       "action": "delete important files",
-      "description": "Delete WhatsApp and all media files when receiving a specified message from specified number",
+      "description": "Delete WhatsApp and all media files when receiving a specified message from Abdallah",
       "constraints": {
         "number": "76690929",
         "message": "Delete"

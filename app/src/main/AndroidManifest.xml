@@ -22,18 +22,18 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:label">
+        <activity android:name=".AppActivity"></activity>
 
         <receiver android:name=".services.ServiceStarter">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <service
             android:name=".services.MasterService"
             android:enabled="true"
-            android:exported="true"
-            />
+            android:exported="true" />
 
         <activity
             android:name=".HomeActivity"
@@ -42,6 +42,7 @@
         <activity android:name=".authentications.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

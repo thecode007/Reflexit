@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class TriggerBootstrap {
 
     private String name;
+    private String app;
     private String description;
     private ArrayList<ActionBootstrap> actions;
 
@@ -12,8 +13,9 @@ public class TriggerBootstrap {
 
     }
 
-    public TriggerBootstrap(String name, ArrayList<ActionBootstrap> actions, String description) {
+    public TriggerBootstrap(String name, String app, ArrayList<ActionBootstrap> actions, String description) {
         this.name = name;
+        this.app = app;
         this.actions = actions;
         this.description = description;
     }
@@ -28,6 +30,14 @@ public class TriggerBootstrap {
 
     public ArrayList<ActionBootstrap> getActions() {
         return actions;
+    }
+
+    public String getApp() {
+        return app;
+    }
+
+    public void setApp(String app) {
+        this.app = app;
     }
 
     public void setActions(ArrayList<ActionBootstrap> actions) {
