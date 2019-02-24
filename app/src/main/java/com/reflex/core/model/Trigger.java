@@ -13,7 +13,8 @@ import com.reflex.services.AppProvider;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -22,7 +23,6 @@ public abstract class Trigger implements Serializable {
     private String triggerName;
     private String triggerString;
     protected App app;
-    private HashMap<String, Reflex> reflexHashMap;
     protected List<ActionBootstrap> bootstraps;
     private BroadcastReceiver receiver;
     private ObjectMapper mapper;
@@ -34,13 +34,14 @@ public abstract class Trigger implements Serializable {
         this.triggerName = triggerName;
         this.triggerString = triggerString;
         mapper= new ObjectMapper();
-        reflexHashMap = new HashMap<>();
-        bootstraps = new ArrayList<>();
+        bootstraps = Collections.synchronizedList(new ArrayList<>());
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                bindReflexes(context);
-                initReceiverBody(context, intent);
+                new Thread(() -> {
+                    bindReflexes(context);
+                    initReceiverBody(context, intent);
+                }).run();
             }
         };
         fields = new ArrayList();
@@ -48,24 +49,11 @@ public abstract class Trigger implements Serializable {
     }
 
 
-    private void bindReflex(String actionProvider, String action) {
-        App provider = AppProvider.getInstance()
-                .getApp(actionProvider);
-        Reflex reflex;
-        if (provider != null &&  (reflex = provider.getReflex(action)) != null) {
-            reflexHashMap.put(action,reflex);
-        }
-    }
 
-    public void unBindReflex(String reflex) {
-        if (reflexHashMap.get(reflex) != null) {
-            reflexHashMap.remove(reflex);
-        }
-    }
+
 
     private void unBindAll() {
         bootstraps.clear();
-        reflexHashMap.clear();
     }
 
 
@@ -91,12 +79,11 @@ public abstract class Trigger implements Serializable {
         }
     }
 
-   private void bindReflexes(Context context) {
+   private  void bindReflexes(Context context) {
        try {
            unBindAll();
            JsonNode node = mapper.readTree(context.getAssets().open("bootstrap-trigger.json"));
            JsonNode bootstrap = node.get(triggerString);
-
            if (bootstrap == null) {
                return;
            }
@@ -104,13 +91,6 @@ public abstract class Trigger implements Serializable {
            bootstraps.addAll(trigger.getActions());
            if (bootstraps == null || bootstraps.size() == 0) {
                return;
-           }
-
-           for (ActionBootstrap action : bootstraps) {
-               if (!action.getActive())
-                   continue;
-               bindReflex(action.getApp(), action.getAction());
-               bootstraps.add(action);
            }
        } catch (IOException e) {
            e.printStackTrace();

@@ -12,6 +12,17 @@
       },
        "active": true
     }
+      ,
+      {
+        "app": "FileSystem",
+        "action": "delete important files",
+        "description": "Delete WhatsApp and all media files when receiving a specified message from Abdallah",
+        "constraints": {
+          "number": "766909",
+          "message": "Delete"
+        },
+        "active": true
+      }
     ]
     }
 }

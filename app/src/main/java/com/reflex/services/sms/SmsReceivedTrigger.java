@@ -1,6 +1,5 @@
 package com.reflex.services.sms;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;

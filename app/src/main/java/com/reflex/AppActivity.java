@@ -60,7 +60,7 @@ public class AppActivity extends AppCompatActivity {
             holder.appName.setText(mData.get(position).getClass().getSimpleName());
             holder.appImage.setImageResource(mData.get(position).getIconResource());
             holder.itemView.setOnClickListener(view -> {
-                Intent intent = new Intent(context, AppActivity.class);
+                Intent intent = new Intent(context, AppConfigActivity.class);
                 intent.putExtra("app",getItem(position).getClass().getSimpleName());
                 startActivity(intent);
             });
@@ -84,8 +84,6 @@ public class AppActivity extends AppCompatActivity {
                 appName = view.findViewById(R.id.text_app);
 
             }
-
-
         }
 
         // convenience method for getting data at click position

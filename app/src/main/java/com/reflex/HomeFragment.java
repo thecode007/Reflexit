@@ -9,12 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,8 +36,6 @@ import static com.reflex.services.AppProvider.FILE_SYSTEM;
 
 public class HomeFragment extends Fragment {
 
-    private PagerAdapter mPagerAdapter;
-    private ViewPager mPager;
     private RecyclerView recyclerView;
     private ImageView btnApps;
 
@@ -64,6 +62,9 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                R.drawable.divider);
+        recyclerView.addItemDecoration(dividerItemDecoration);
         initRecipes(recyclerView);
         return view;
     }
@@ -137,6 +138,7 @@ public class HomeFragment extends Fragment {
             return view;
         }
     }
+
 
     public void initRecipes(RecyclerView recyclerView) {
 
