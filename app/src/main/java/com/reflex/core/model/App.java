@@ -8,7 +8,9 @@ import com.reflex.core.providers.ReflexProvider;
 import com.reflex.core.providers.TriggerProvider;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -124,11 +126,18 @@ public class App implements Serializable {
     }
 
 
-    public Collection<Trigger> getTriggers() {
+    public List<Trigger> getTriggers() {
         if (triggerProvider == null) {
             return null;
         }
-        return triggerProvider.getAll();
+        return new ArrayList(triggerProvider.getAll());
+    }
+
+    public List<Reflex> getReflexes() {
+        if (reflexProvider == null) {
+            return null;
+        }
+        return new ArrayList(reflexProvider.getAll());
     }
 
 }

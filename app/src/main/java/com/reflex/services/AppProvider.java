@@ -35,4 +35,28 @@ public class AppProvider {
     public List<App> getAllApps() {
         return new ArrayList<>(repoHashMap.values());
     }
+
+    public  List<App> getTriggerProviders() {
+        ArrayList<App> apps = new ArrayList<>(repoHashMap.values());
+        ArrayList<App> result = new ArrayList<>();
+        for (App app : apps) {
+            if (app.getTriggers() == null || app.getTriggers().size() == 0){
+                continue;
+            }
+            result.add(app);
+        }
+        return result;
+    }
+
+    public  List<App> getReflexProviders() {
+        ArrayList<App> apps = new ArrayList<>(repoHashMap.values());
+        ArrayList<App> result = new ArrayList<>();
+        for (App app : apps) {
+            if (app.getReflexes() == null || app.getReflexes().size() == 0){
+                continue;
+            }
+            result.add(app);
+        }
+        return result;
+    }
 }

@@ -25,7 +25,7 @@ public class AppActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app_activtiy);
         recyclerView = findViewById(R.id.recycler_apps);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        List<App> apps = AppProvider.getInstance().getAllApps();
+        List<App> apps = AppProvider.getInstance().getTriggerProviders();
         AppRecyclerAdapter adapter = new AppRecyclerAdapter(this, apps);
         recyclerView.setAdapter(adapter);
     }

@@ -3,7 +3,9 @@ package com.reflex.core.providers;
 import com.reflex.core.model.Reflex;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class ReflexProvider implements Serializable {
 
@@ -25,5 +27,12 @@ public abstract class ReflexProvider implements Serializable {
         if (map != null) {
             map.put(action, reflex);
         }
+    }
+
+    public List<Reflex> getAll() {
+        if (map == null) {
+            return null;
+        }
+        return new ArrayList<>(map.values());
     }
 }
