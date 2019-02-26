@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Built for modeling the a trigger and
@@ -22,8 +21,8 @@ public class App implements Serializable {
     // repositories used by the provider
     protected Context context;
     protected TriggerProvider triggerProvider;
-    protected ReflexProvider reflexProvider;
-    protected int iconResource;
+    private ReflexProvider reflexProvider;
+    private int iconResource;
     protected App() {
 
     }
@@ -105,9 +104,9 @@ public class App implements Serializable {
         return iconResource;
     }
 
-    public Set<String> showActions() {
+    public ArrayList<String> showActions() {
         if (reflexProvider != null && reflexProvider.map != null) {
-            return reflexProvider.map.keySet();
+            return new ArrayList<>(reflexProvider.map.keySet());
         }
         return null;
     }
@@ -118,7 +117,8 @@ public class App implements Serializable {
             return null;
         }
         for(Trigger trigger : triggers) {
-            if (trigger.getTriggerName().equals(name)) {
+            if (trigger.getTriggerName().equals(name) ||
+                    trigger.getTriggerString().equals(name)) {
                 return trigger;
                 }
             }

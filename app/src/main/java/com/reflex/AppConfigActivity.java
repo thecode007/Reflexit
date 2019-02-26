@@ -1,6 +1,7 @@
 package com.reflex;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.reflex.core.model.App;
 import com.reflex.core.model.Trigger;
 import com.reflex.services.AppProvider;
 import java.util.List;
+import java.util.Objects;
 
 public class AppConfigActivity extends AppCompatActivity {
 
@@ -24,7 +26,7 @@ public class AppConfigActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app_config);
         RecyclerView recyclerView = findViewById(R.id.recycler_app_triggers);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        App app = AppProvider.getInstance().getApp(getIntent().getExtras().getString("app"));
+        App app = AppProvider.getInstance().getApp(Objects.requireNonNull(getIntent().getExtras()).getString("app"));
         recyclerView.setAdapter(new TriggerRecyclerAdapter(this, app.getTriggers()));
         ImageView imageStartApp = findViewById(R.id.image_start_app);
         imageStartApp.setImageResource(app.getIconResource());
@@ -56,6 +58,18 @@ public class AppConfigActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull TriggerRecyclerAdapter.ViewHolder holder, int position) {
             holder.triggerName.setText(getItem(position).getTriggerName());
+            holder.itemView.setOnClickListener(view -> {
+                Trigger trigger = getItem(position);
+                if (trigger.getFields() != null && trigger.getFields().size() != 0) {
+                    Intent intent = new Intent(AppConfigActivity.this, TriggerConfigActivity.class);
+                    intent.putExtra("trigger", trigger.getTriggerName());
+                    intent.putExtra("triggerString", trigger.getTriggerString());
+                    intent.putExtra("app", getIntent().
+                            getExtras().
+                            getString("app"));
+                    startActivity(intent);
+                }
+            });
         }
 
         // total number of cells
@@ -66,7 +80,7 @@ public class AppConfigActivity extends AppCompatActivity {
 
 
         // stores and recycles views as they are scrolled off screen
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder {
             TextView triggerName;
 
             ViewHolder(View view) {

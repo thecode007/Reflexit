@@ -31,15 +31,17 @@ class SmsReflexes extends ReflexProvider {
     }
 
     private SmsReflexes() {
-        map = new HashMap<>();
 
-        map.put(READ_SMS_FROM_PROVIDER, args -> {
+        map = new HashMap<>();
+        internalMap = new HashMap<>();
+
+        internalMap.put(READ_SMS_FROM_PROVIDER, args -> {
             Intent intent = (Intent) args[0];
             JSONObject callback = (JSONObject) args[1];
             readSMSFromIntent(intent, callback);
         });
 
-        map.put(FILTER_SMS_FROM_PROVIDER, args -> {
+        internalMap.put(FILTER_SMS_FROM_PROVIDER, args -> {
             Intent intent = (Intent) args[0];
             ObjectNode filters = (ObjectNode) args[1];
             ObjectNode callback = (ObjectNode) args[2];

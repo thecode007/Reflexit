@@ -44,5 +44,9 @@
     <string name="recommended_for_you">Recommended for you</string>
     <string name="recipes">Recipes</string>
     <string name="build_a_recipe">Build an event flow to</string>
-    <string name="flow_description">Flow Description</string>
+    <string name="flow_description">Description</string>
+    <string name="submit">submit</string>
+    <string name="with_the_following">With the following</string>
+    <string name="skip">skip</string>
+    <string name="choose_a_reflex">Choose a reflex</string>
 </resources>

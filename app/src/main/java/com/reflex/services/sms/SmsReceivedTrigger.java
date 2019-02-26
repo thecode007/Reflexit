@@ -16,8 +16,8 @@ class SmsReceivedTrigger extends Trigger {
 
     SmsReceivedTrigger(App app) {
         super("SMS received","android.provider.Telephony.SMS_RECEIVED", app);
-        fields.add("name");
-        fields.add("message");
+        fields.add("Number");
+        fields.add("Message");
     }
 
     @Override

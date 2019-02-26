@@ -22,7 +22,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:label">
-        <activity android:name=".AppConfigActivity"></activity>
+        <activity android:name=".ResultActivity"></activity>
+        <activity android:name=".ActionAppsActivity" />
+        <activity android:name=".ActionsActivity" />
+        <activity android:name=".TriggerConfigActivity" />
+        <activity android:name=".AppConfigActivity" />
         <activity android:name=".AppActivity" />
 
         <receiver android:name=".services.ServiceStarter">
@@ -43,6 +47,7 @@
         <activity android:name=".authentications.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -8,13 +8,10 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reflex.services.AppProvider;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -26,7 +23,7 @@ public abstract class Trigger implements Serializable {
     protected List<ActionBootstrap> bootstraps;
     private BroadcastReceiver receiver;
     private ObjectMapper mapper;
-    protected ArrayList fields;
+    protected ArrayList<String> fields;
 
 
     public Trigger(String triggerName,String triggerString, App app) {
@@ -101,7 +98,7 @@ public abstract class Trigger implements Serializable {
         return bootstraps;
     }
 
-    public ArrayList getFields() {
+    public ArrayList<String> getFields() {
         return fields;
     }
 
