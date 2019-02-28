@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.reflex.core.model.App;
 import com.reflex.core.model.Trigger;
 import com.reflex.services.AppProvider;
@@ -43,6 +44,7 @@ public class TriggerConfigActivity extends AppCompatActivity {
                 editText.setInputType(InputType.TYPE_CLASS_PHONE);
                 continue;
             }
+
             editText.setInputType(InputType.TYPE_CLASS_TEXT);
             editTexts.add(editText);
         }
@@ -54,6 +56,11 @@ public class TriggerConfigActivity extends AppCompatActivity {
             intent.putExtra("trigger", trigger.getTriggerName());
             intent.putExtra("triggerString", triggerString);
             intent.putExtra("action", action);
+            ObjectNode node = JsonNodeFactory.instance.objectNode();
+            for (EditText editText : editTexts) {
+                node.put(editText.getHint().toString().toLowerCase(), editText.getText().toString());
+            }
+            intent.putExtra("constraints", node.toString());
             startActivity(intent);
         });
     }

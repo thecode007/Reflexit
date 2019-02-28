@@ -24,14 +24,17 @@ public class ActionAppsActivity extends AppCompatActivity {
     private String appName;
     private String trigger;
     private String triggerString;
+    private String constraints;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_apps);
         Bundle extras = getIntent().getExtras();
+        assert extras != null;
         appName = extras.getString("app");
         trigger = extras.getString("trigger");
         triggerString = extras.getString("triggerString");
+        constraints = extras.getString("constraints");
         RecyclerView recyclerView = findViewById(R.id.recycler_action_apps);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         List<App> apps = AppProvider.getInstance().getReflexProviders();
@@ -72,6 +75,7 @@ public class ActionAppsActivity extends AppCompatActivity {
                 intent.putExtra("app", appName);
                 intent.putExtra("trigger", trigger);
                 intent.putExtra("triggerString", triggerString);
+                intent.putExtra("constraints", constraints);
                 startActivity(intent);
             });
         }

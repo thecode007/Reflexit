@@ -3,14 +3,11 @@ package com.reflex;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,18 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.reflex.core.model.App;
 import com.reflex.core.model.Recipe;
 import com.reflex.services.AppProvider;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.Serializable;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -77,72 +71,6 @@ public class HomeFragment extends Fragment {
         super.onDestroy();
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-
-        private ArrayList<AppletCategory> categories;
-
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-            categories = new ArrayList<>();
-            categories.add(new AppletCategory("Security Applets", R.drawable.security));
-            categories.add(new AppletCategory("Social Applets", R.drawable.social));
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            AvailableAppletSlider appletSlider = new AvailableAppletSlider();
-            Intent intent = new Intent();
-            intent.putExtra("category",categories.get(position));
-            appletSlider.setArguments(intent.getExtras());
-            return appletSlider;
-        }
-
-        @Override
-        public int getCount() {
-            return categories.size();
-        }
-    }
-
-    private class AppletCategory implements Serializable {
-
-        public String title;
-        public int imageResource;
-
-        public AppletCategory(String title, int imageResource) {
-            this.title = title;
-            this.imageResource = imageResource;
-        }
-    }
-
-
-    public static class AvailableAppletSlider extends Fragment {
-
-        private AppletCategory category;
-        public AvailableAppletSlider() {
-        }
-
-        @Override
-        public void setArguments(@Nullable Bundle args) {
-            super.setArguments(args);
-            category = (AppletCategory) args.get("category");
-        }
-
-        @Nullable
-        @Override
-        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_available_applet_slider, container, false);
-            if (category != null){
-                TextView textCategory = view.findViewById(R.id.text_category);
-                textCategory.setText(category.title);
-                ImageView imageView = view.findViewById(R.id.img_category);
-                imageView.setImageResource(category.imageResource);
-            }
-            return view;
-        }
-    }
-
-
     public void initRecipes(RecyclerView recyclerView) {
 
         if (recyclerView == null) {
@@ -157,7 +85,9 @@ public class HomeFragment extends Fragment {
 
         try {
             JSONObject result = new JSONObject();
-            fileSystem.execute(READ_JSON_STREAM, getContext().getAssets().open("bootstrap-trigger.json"), result);
+            InputStream inputStream  = new FileInputStream(Environment.getExternalStorageDirectory() +
+                    "/reflexIt/bootstrap_trigger.json");
+            fileSystem.execute(READ_JSON_STREAM, inputStream, result);
             result = result.getJSONObject("result");
             Iterator<String> iterator = result.keys();
             while (iterator.hasNext()) {

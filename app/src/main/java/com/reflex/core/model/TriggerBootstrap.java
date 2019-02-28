@@ -4,28 +4,17 @@ import java.util.ArrayList;
 
 public class TriggerBootstrap {
 
-    private String name;
     private String app;
-    private String description;
     private ArrayList<ActionBootstrap> actions;
 
     public TriggerBootstrap() {
 
     }
 
-    public TriggerBootstrap(String name, String app, ArrayList<ActionBootstrap> actions, String description) {
-        this.name = name;
+    public TriggerBootstrap(String app, ArrayList<ActionBootstrap> actions) {
         this.app = app;
         this.actions = actions;
-        this.description = description;
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public ArrayList<ActionBootstrap> getActions() {
@@ -44,11 +33,4 @@ public class TriggerBootstrap {
         this.actions = actions;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

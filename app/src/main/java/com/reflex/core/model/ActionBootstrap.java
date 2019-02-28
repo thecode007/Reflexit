@@ -15,10 +15,11 @@ public class ActionBootstrap {
     public ActionBootstrap() {
 
     }
-    public ActionBootstrap(String app, String action, ObjectNode constraints) {
+    public ActionBootstrap(String app, String action, ObjectNode constraints, String description) {
         this.app = app;
         this.action = action;
         this.constraints = constraints;
+        this.description = description;
     }
 
     public String getApp() {

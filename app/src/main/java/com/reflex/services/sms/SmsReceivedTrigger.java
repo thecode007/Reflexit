@@ -15,7 +15,7 @@ import com.reflex.core.model.App;
 class SmsReceivedTrigger extends Trigger {
 
     SmsReceivedTrigger(App app) {
-        super("SMS received","android.provider.Telephony.SMS_RECEIVED", app);
+        super("received SMS","android.provider.Telephony.SMS_RECEIVED", app);
         fields.add("Number");
         fields.add("Message");
     }

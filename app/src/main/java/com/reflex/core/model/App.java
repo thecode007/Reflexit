@@ -7,6 +7,7 @@ import android.util.Log;
 import com.reflex.core.providers.ReflexProvider;
 import com.reflex.core.providers.TriggerProvider;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,16 +24,15 @@ public class App implements Serializable {
     protected TriggerProvider triggerProvider;
     private ReflexProvider reflexProvider;
     private int iconResource;
-    protected App() {
 
+    protected App() {
     }
+
     public App(int iconResource, @Nullable TriggerProvider triggerProvider, @Nullable ReflexProvider reflexProvider) {
         this.triggerProvider = triggerProvider;
         this.reflexProvider = reflexProvider;
         this.iconResource = iconResource;
     }
-
-
 
 
     public Reflex getReflex(String name) {
@@ -52,6 +52,8 @@ public class App implements Serializable {
         }
         catch (ClassCastException | NullPointerException ex){
             ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -65,6 +67,8 @@ public class App implements Serializable {
         }
         catch (ClassCastException | NullPointerException ex){
             ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

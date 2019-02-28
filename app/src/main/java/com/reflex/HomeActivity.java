@@ -1,9 +1,19 @@
 package com.reflex;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.File;
+import java.io.IOException;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -33,13 +43,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         navigationView = findViewById(R.id.navigation);
-
         navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-
     }
 
 }

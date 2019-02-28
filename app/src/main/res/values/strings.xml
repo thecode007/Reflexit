@@ -49,4 +49,8 @@
     <string name="with_the_following">With the following</string>
     <string name="skip">skip</string>
     <string name="choose_a_reflex">Choose a reflex</string>
+    <string name="result_statement">Result Statement</string>
+    <string name="description">Description</string>
+    <string name="create">create</string>
+    <string name="close">close</string>
 </resources>

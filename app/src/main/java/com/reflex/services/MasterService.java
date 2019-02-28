@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import com.reflex.core.model.App;
-
 import java.util.List;
 
 /**
