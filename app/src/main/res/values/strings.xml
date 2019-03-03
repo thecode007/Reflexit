@@ -53,4 +53,6 @@
     <string name="description">Description</string>
     <string name="create">create</string>
     <string name="close">close</string>
+    <string name="facebook_app_id">294478767901369</string>
+    <string name="fb_login_protocol_scheme">fb294478767901369</string>
 </resources>
