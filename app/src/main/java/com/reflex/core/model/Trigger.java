@@ -8,11 +8,15 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.reflex.database.DatabaseAccess.database_url;
 
 
 public abstract class Trigger implements Serializable {
@@ -41,12 +45,10 @@ public abstract class Trigger implements Serializable {
                 }).run();
             }
         };
-        fields = new ArrayList();
+
+        fields = new ArrayList<String>();
 
     }
-
-
-
 
 
     private void unBindAll() {
@@ -65,12 +67,12 @@ public abstract class Trigger implements Serializable {
     }
 
 
-    public void register (Context context) {
+    void register(Context context) {
         Log.wtf(triggerString, "is registered");
         context.registerReceiver(receiver,new IntentFilter(triggerString));
     }
 
-    public void unRegister(Context context) {
+    void unRegister(Context context) {
         if (receiver != null) {
             context.unregisterReceiver(receiver);
         }
@@ -79,7 +81,7 @@ public abstract class Trigger implements Serializable {
    private  void bindReflexes(Context context) {
        try {
            unBindAll();
-           JsonNode node = mapper.readTree(context.getAssets().open("bootstrap-trigger.json"));
+           JsonNode node = mapper.readTree(new File(database_url));
            JsonNode bootstrap = node.get(triggerString);
            if (bootstrap == null) {
                return;

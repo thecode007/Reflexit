@@ -12,13 +12,14 @@ public abstract class ReflexProvider implements Serializable {
     public HashMap<String, Reflex> map;
     protected HashMap<String, Reflex> internalMap;
 
-    protected static final String DELETE_IMPORTANT_FILE = "delete important files";
+    public static final String DELETE_IMPORTANT_FILE = "delete important files";
     protected static final String DELETE_FILE_OR_Directory = "delete file";
     protected static final String READ_SMS_FROM_PROVIDER = "read sms from intent";
     public static final String READ_JSON_STREAM = "read json asset";
     public static final String READ_JSON_FILE = "read json file";
     public static final String FILTER_SMS_FROM_PROVIDER = "filter sms";
     protected static final String SEND_SMS_TEXT_MESSAGE = "send SMS text message";
+    public static final String UN_MUTE = "unmute";
 
     public Reflex getAction(String action) {
         if (map.get(action) != null){

@@ -1,6 +1,7 @@
 package com.reflex.core.model;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
@@ -15,10 +16,10 @@ public class ActionBootstrap {
     public ActionBootstrap() {
 
     }
-    public ActionBootstrap(String app, String action, ObjectNode constraints, String description) {
+    public ActionBootstrap(String app, String action, JsonNode constraints, String description) {
         this.app = app;
         this.action = action;
-        this.constraints = constraints;
+        this.constraints = (ObjectNode) constraints;
         this.description = description;
     }
 

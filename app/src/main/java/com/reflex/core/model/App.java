@@ -3,10 +3,8 @@ package com.reflex.core.model;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
 import com.reflex.core.providers.ReflexProvider;
 import com.reflex.core.providers.TriggerProvider;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,7 +18,6 @@ import java.util.List;
  */
 public class App implements Serializable {
     // repositories used by the provider
-    protected Context context;
     protected TriggerProvider triggerProvider;
     private ReflexProvider reflexProvider;
     private int iconResource;
@@ -130,7 +127,7 @@ public class App implements Serializable {
     }
 
 
-    public List<Trigger> getTriggers() {
+    public ArrayList<Trigger> getTriggers() {
         if (triggerProvider == null) {
             return null;
         }

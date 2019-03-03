@@ -15,14 +15,16 @@
 
     <application
         android:allowBackup="true"
+        android:name=".core.GlobalApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
-        tools:replace="android:allowBackup,android:label">
-        <activity android:name=".ResultActivity"></activity>
+        tools:replace="android:allowBackup,android:label"
+        >
+        <activity android:name=".ResultActivity" />
         <activity android:name=".ActionAppsActivity" />
         <activity android:name=".ActionsActivity" />
         <activity android:name=".TriggerConfigActivity" />

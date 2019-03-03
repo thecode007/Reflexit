@@ -42,6 +42,7 @@ public class TriggerConfigActivity extends AppCompatActivity {
             layoutConstraints.addView(editText);
             if (field.contains("Number")) {
                 editText.setInputType(InputType.TYPE_CLASS_PHONE);
+                editTexts.add(editText);
                 continue;
             }
 

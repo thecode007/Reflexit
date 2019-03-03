@@ -129,16 +129,13 @@ class SmsReflexes extends ReflexProvider {
                         // If Android version L or older:
                         msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                     }
-                    if (phoneNumber != null && !Objects.requireNonNull(msgs[i].getOriginatingAddress()).equalsIgnoreCase(phoneNumber)) {
-                        return;
-                    }
                     // Build the message to show.
                     strMessage.append(msgs[i].getMessageBody());
                 }
 
-                if (filterMessage != null && filterMessage.equals(strMessage.toString())) {
+                if (filterMessage.equals(strMessage.toString()) &&
+                        msgs[0].getOriginatingAddress().equalsIgnoreCase(phoneNumber)) {
                     resultCallBack.put("matched",true);
-                    return;
                 }
             }
     }

@@ -21,6 +21,10 @@ public class TriggerBootstrap {
         return actions;
     }
 
+    public void addAction(ActionBootstrap actionBootstrap) {
+        actions.add(actionBootstrap);
+    }
+
     public String getApp() {
         return app;
     }

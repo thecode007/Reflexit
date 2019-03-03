@@ -79,9 +79,9 @@ public class ActionsActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(view -> {
                 Intent intent = new Intent(ActionsActivity.this, ResultActivity.class);
                 intent.putExtra("app", appName);
+                intent.putExtra("action", actionName);
                 intent.putExtra("targetApp", app.getClass().getSimpleName());
                 intent.putExtra("trigger", trigger);
-                intent.putExtra("triggerString", triggerString);
                 intent.putExtra("triggerString", triggerString);
                 intent.putExtra("constraints", constraints);
                 startActivity(intent);
