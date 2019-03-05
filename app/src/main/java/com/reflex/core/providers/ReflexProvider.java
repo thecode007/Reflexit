@@ -20,6 +20,7 @@ public abstract class ReflexProvider implements Serializable {
     public static final String FILTER_SMS_FROM_PROVIDER = "filter sms";
     protected static final String SEND_SMS_TEXT_MESSAGE = "send SMS text message";
     public static final String UN_MUTE = "unmute";
+    public static final String VIBRATE = "vibrate";
 
     public Reflex getAction(String action) {
         if (map.get(action) != null){

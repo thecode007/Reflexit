@@ -100,8 +100,9 @@ public class HomeFragment extends Fragment {
                     JSONObject action = actions.getJSONObject(i);
                     String targetApp = action.getString("app");
                     String description = action.getString("description");
+                    boolean isActive = action.getBoolean("active");
                     Recipe recipe = new Recipe(app, appProvider.getApp(app).getIconResource(),
-                            triggerString, targetApp,appProvider.getApp(targetApp).getIconResource(), description, true);
+                            triggerString, targetApp,appProvider.getApp(targetApp).getIconResource(), description, isActive);
                     recipes.add(recipe);
                     RecipeAdapter adapter = new RecipeAdapter(getContext(), recipes);
                     recyclerView.setAdapter(adapter);

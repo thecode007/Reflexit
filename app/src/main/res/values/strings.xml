@@ -55,4 +55,6 @@
     <string name="close">close</string>
     <string name="facebook_app_id">294478767901369</string>
     <string name="fb_login_protocol_scheme">fb294478767901369</string>
+    <string name="works_with">works with</string>
+    <string name="apps">Apps</string>
 </resources>

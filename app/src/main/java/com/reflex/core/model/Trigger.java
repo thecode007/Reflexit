@@ -87,9 +87,14 @@ public abstract class Trigger implements Serializable {
                return;
            }
            TriggerBootstrap trigger = mapper.readValue(bootstrap.toString(), TriggerBootstrap.class);
-           bootstraps.addAll(trigger.getActions());
-           if (bootstraps == null || bootstraps.size() == 0) {
+           if (trigger.getActions() == null || trigger.getActions().size() == 0) {
                return;
+           }
+
+           for (ActionBootstrap action : trigger.getActions()) {
+               if (action.getActive()) {
+                   bootstraps.add(action);
+               }
            }
        } catch (IOException e) {
            e.printStackTrace();

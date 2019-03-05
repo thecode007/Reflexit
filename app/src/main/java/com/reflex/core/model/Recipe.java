@@ -10,6 +10,7 @@ public class Recipe {
     public String description;
     public boolean isActive;
 
+
     public Recipe(String appName, int appImageResource, String triggerName,
                   String targetAppName, int targetAppImageResource, String description,
                   boolean isActive) {
