@@ -1,11 +1,9 @@
-package com.reflex;
+package com.reflex.ui;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class RecommendationsAdapter extends RecyclerView.Adapter<RecommendationsAdapter.RecommendationHolder> {
 

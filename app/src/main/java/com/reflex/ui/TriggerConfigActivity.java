@@ -1,4 +1,4 @@
-package com.reflex;
+package com.reflex.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.reflex.R;
 import com.reflex.core.model.App;
 import com.reflex.core.model.Trigger;
 import com.reflex.services.AppProvider;

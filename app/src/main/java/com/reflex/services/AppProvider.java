@@ -3,6 +3,8 @@ package com.reflex.services;
 import android.system.Os;
 
 import com.reflex.core.model.App;
+import com.reflex.core.model.WebBased;
+import com.reflex.services.facebook.FacebookApp;
 import com.reflex.services.fileSystem.FileSystem;
 import com.reflex.services.os.OS;
 import com.reflex.services.sms.SmsApp;
@@ -17,6 +19,7 @@ public class AppProvider {
     public static String SMS = SmsApp.class.getSimpleName();
     public static String FILE_SYSTEM = FileSystem.class.getSimpleName();
     public static String OS = com.reflex.services.os.OS.class.getSimpleName();
+    public static String FACEBOOK = FacebookApp.class.getSimpleName();
 
 
     public static AppProvider getInstance() {
@@ -31,6 +34,7 @@ public class AppProvider {
         repoHashMap.put(SMS, SmsApp.getInstance());
         repoHashMap.put(FILE_SYSTEM, FileSystem.getInstance());
         repoHashMap.put(OS, com.reflex.services.os.OS.getInstance());
+        repoHashMap.put(FACEBOOK, FacebookApp.getInstance());
     }
 
     public App getApp(String provider) {
@@ -61,6 +65,17 @@ public class AppProvider {
                 continue;
             }
             result.add(app);
+        }
+        return result;
+    }
+
+    public List<App> getWebBasedApps() {
+        ArrayList<App> apps = new ArrayList<>(repoHashMap.values());
+        ArrayList<App> result = new ArrayList<>();
+        for (App app : apps) {
+            if (app instanceof WebBased){
+                result.add(app);
+            }
         }
         return result;
     }

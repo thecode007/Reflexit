@@ -7,7 +7,7 @@
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".ActivitiesFragment">
+    tools:context=".ui.ActivitiesFragment">
 
     <TextView
         android:layout_width="match_parent"

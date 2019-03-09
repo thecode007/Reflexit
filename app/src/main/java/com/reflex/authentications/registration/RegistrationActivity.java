@@ -2,15 +2,12 @@ package com.reflex.authentications.registration;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.reflex.HomeActivity;
 import com.reflex.R;
-import com.reflex.authentications.login.LoginActivity;
 import com.reflex.databinding.ActivityRegistrationBinding;
 
 public class RegistrationActivity extends AppCompatActivity implements RegistrationView{

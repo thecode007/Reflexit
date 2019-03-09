@@ -1,4 +1,4 @@
-package com.reflex;
+package com.reflex.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.reflex.core.GlobalApplication;
+import com.reflex.R;
 import com.reflex.core.model.App;
 import com.reflex.core.model.Recipe;
 import com.reflex.services.AppProvider;
-import com.reflex.services.os.OS;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,10 +28,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import static com.reflex.core.providers.ReflexProvider.READ_JSON_STREAM;
-import static com.reflex.core.providers.ReflexProvider.UN_MUTE;
 import static com.reflex.services.AppProvider.FILE_SYSTEM;
 
-public class HomeFragment extends Fragment {
+public class RecipeFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
@@ -45,7 +42,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_recipe, container, false);
 
 
         ImageView btnApps = view.findViewById(R.id.btn_activity);
@@ -104,9 +101,10 @@ public class HomeFragment extends Fragment {
                     Recipe recipe = new Recipe(app, appProvider.getApp(app).getIconResource(),
                             triggerString, targetApp,appProvider.getApp(targetApp).getIconResource(), description, isActive);
                     recipes.add(recipe);
-                    RecipeAdapter adapter = new RecipeAdapter(getContext(), recipes);
-                    recyclerView.setAdapter(adapter);
+
                 }
+                RecipeAdapter adapter = new RecipeAdapter(getContext(), recipes);
+                recyclerView.setAdapter(adapter);
             }
         } catch (IOException e) {
             e.printStackTrace();

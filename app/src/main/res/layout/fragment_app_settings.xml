@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    tools:context=".ui.AppSettings"
     android:background="@color/colorPrimaryDark"
-    android:orientation="vertical"
-    tools:context=".ui.AppActivity">
+    android:padding="20dp"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose a trigger app"
-        android:letterSpacing="0.1"
-        android:textAlignment="center"
-        android:textSize="25sp"
-        android:fontFamily="sans-serif"
         android:textColor="@color/colorWhite"
-        android:layout_marginTop="20dp"/>
+        android:letterSpacing="0.1"
+        android:text="@string/settings"
+        android:textSize="30sp"
+        android:fontFamily="sans-serif"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+    />
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="20dp"
-        android:id="@+id/recycler_apps"
+        android:id="@+id/recycler_app"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
+
 </LinearLayout>

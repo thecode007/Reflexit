@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.reflex.HomeActivity;
+import com.reflex.ui.HomeActivity;
 import com.reflex.R;
 import com.reflex.authentications.registration.RegistrationActivity;
 import com.reflex.network.RetrofitSingleton;

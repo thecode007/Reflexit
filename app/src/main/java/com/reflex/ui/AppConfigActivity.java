@@ -1,4 +1,4 @@
-package com.reflex;
+package com.reflex.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.reflex.R;
 import com.reflex.core.model.App;
 import com.reflex.core.model.Trigger;
 import com.reflex.services.AppProvider;
