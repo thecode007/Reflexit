@@ -77,7 +77,7 @@ Now lets create a trigger that will be registered to the Sms app trigger provide
 After that the SMSReflexes which is the reflex provider of Sms App is created which is a singlton
 
  
-With help of the Jakson JSON parsing library we are bootstraping the trigegrs and the actions. 
+With help of the Jakson JSON parsing library we are bootstraping the triggers and the actions. 
 Lets automate an event triggered by the Sms app and bind an action from OS which is unmute when SMS unmute message 
 received from ahmad's number ( the os is also exposed like SMS app)
 
