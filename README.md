@@ -90,4 +90,4 @@ received from ahmad's number ( the os is also exposed like SMS app)
  JSON File will be binded again to the Trigger and executed according to the filter
  
  For more details check the packages com.reflex.core and their implementation in com.reflex.services
-
+ Check assets/bootstrap-trigger.json for the generated file of this example
