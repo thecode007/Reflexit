@@ -82,7 +82,7 @@ received from ahmad's number ( the os is also exposed like SMS app)
 
  ```
  ActionBootstrap actionBootstrap = new ActionBootstrap("OS", "Unmute",{"number":76690929, "message":"Unmute"}, 
- "Unmute when Ahmad calls");
+ "Unmute when Ahmad sends Unmute");
  DatabaseAccess.addActionToTrigger("SmsApp", "android.provider.Telephony.SMS_RECEIVED", actionBootstrap);
  ```
  After adding this line the JSON File will be updated and once the message is received all the action in the
