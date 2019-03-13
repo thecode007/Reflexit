@@ -10,7 +10,8 @@ Inspired by Tasker.
  All the basis of this app are in the package com.reflex.core
  
  Lets begin with the model:
-   - Reflex: is a contract abstracting an action provided by an app.
+   - Reflex: is a contract abstracting an action provided by an app, it is a proxy to the BroadCast receiver 
+     which publish-subscribe pattern used by android system.
    - Trigger: is the invoker that an action binds to, it is also provided by an app.
  
  To decouple the action from trigger a ReflexProvider and TriggerProvider are created, which are FlyWieghts patterns 
