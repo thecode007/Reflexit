@@ -3,7 +3,7 @@ An open source android automation system for automating almost everything in the
 Inspired by Tasker.
 
 # Core diagram
- https://drive.google.com/open?id=1Sql2BCZ3ZmLRbkx6vBg5EB7nCFz07Bu9
+ https://drive.google.com/open?id=1ZqmTB6tUifKDoU0hv5VJxhULyI_irOby
  
  # How it is Desgined
  
