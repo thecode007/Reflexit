@@ -5,6 +5,9 @@ Inspired by Tasker.
 # Core diagram
  https://drive.google.com/open?id=1ZqmTB6tUifKDoU0hv5VJxhULyI_irOby
  
+ # Demo
+ https://drive.google.com/open?id=17_EEMf25aNgy795D-LYcQv9_p3zmu4yy
+ 
  # How it is Desgined
  
  All the basis of this app are in the package com.reflex.core
